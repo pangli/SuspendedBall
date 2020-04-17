@@ -11,6 +11,7 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.zorro.suspendedball.permission.FloatActivity;
 import com.zorro.suspendedball.widget.FloatView;
@@ -20,8 +21,8 @@ import com.zorro.suspendedball.permission.PermissionListener;
 
 /**
  * Created by Ranger Liao
- *
- *  处理呼消息
+ * <p>
+ * 处理呼消息
  */
 public class FloatService extends Service implements View.OnClickListener {
 
@@ -76,10 +77,10 @@ public class FloatService extends Service implements View.OnClickListener {
                 | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
 
         // 确定悬浮窗的对齐方式
-        wmParams.gravity = Gravity.LEFT | Gravity.TOP;
+        wmParams.gravity = Gravity.START | Gravity.TOP;
         // 设置悬浮层初始位置
-        wmParams.x = 0;
-        wmParams.y = screenHeight / 2;
+        wmParams.x = screenWidth;
+        wmParams.y = screenHeight / 8;
 
         wmParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
         wmParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -148,11 +149,6 @@ public class FloatService extends Service implements View.OnClickListener {
         }
     }
 
-    private void showMenu() {
-        if (floatView != null) {
-            floatView.showMenu();
-        }
-    }
 
     public void destroyFloat() {
         if (floatView != null) {
@@ -166,7 +162,7 @@ public class FloatService extends Service implements View.OnClickListener {
     public void onClick(View v) {
         // 移除悬浮窗，并重建ACTIVITY
 //        removeFloatView();
-        showMenu();
+        Toast.makeText(this, "被点击了", Toast.LENGTH_SHORT).show();
 
     }
 

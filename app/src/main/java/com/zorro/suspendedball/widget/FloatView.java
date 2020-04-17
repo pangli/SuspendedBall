@@ -3,12 +3,10 @@ package com.zorro.suspendedball.widget;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Handler;
 import android.os.Message;
 import android.util.DisplayMetrics;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -20,11 +18,9 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zorro.suspendedball.R;
-import com.zorro.suspendedball.activity.MainActivity;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -83,12 +79,7 @@ public class FloatView extends FrameLayout {
     private WindowManager.LayoutParams mWmParams;
     private WindowManager mWindowManager;
 
-    //private View mRootFloatView;
     private ImageView mIvFloatLogo;
-    //    private ImageView mIvFloatLoader;
-    private LinearLayout mLlFloatMenu;
-    private TextView mTvLeft;
-    private TextView mTvRight;
     private FrameLayout mFlFloatLogo;
 
     private boolean mIsRight;//logo是否在右边
@@ -120,7 +111,6 @@ public class FloatView extends FrameLayout {
                     mWmParams.alpha = 0.7f;
 //                    mWindowManager.updateViewLayout(FloatView.this, mWmParams);
                     refreshFloatMenu(mIsRight);
-                    mLlFloatMenu.setVisibility(View.GONE);
                 }
             } else if (msg.what == HANDLER_TYPE_CANCEL_ANIM) {
 //                mIvFloatLoader.clearAnimation();
@@ -130,7 +120,6 @@ public class FloatView extends FrameLayout {
             super.handleMessage(msg);
         }
     };
-
 
 
     public FloatView(Context context) {
@@ -151,17 +140,8 @@ public class FloatView extends FrameLayout {
         mScreenHeight = dm.heightPixels;
 
         createView(mContext);
-//        view.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                showMenu();
-//            }
-//        });
-
         mTimer = new Timer();
-//        hide();
     }
-
 
 
     /**
@@ -171,54 +151,10 @@ public class FloatView extends FrameLayout {
      * @return
      */
     private void createView(final Context context) {
-        mFlFloatLogo = (FrameLayout) findViewById(R.id.pj_float_view);
-        mIvFloatLogo = (ImageView) findViewById(R.id.pj_float_view_icon_imageView);
-        mLlFloatMenu = (LinearLayout) findViewById(R.id.ll_menu);
-        mTvLeft = (TextView) findViewById(R.id.tv_left);
-        mTvLeft.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                openHtml();
-            }
-        });
-        mTvRight = (TextView) findViewById(R.id.tv_right);
-        mTvRight.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                openHtml();
-            }
-        });
-//        rootFloatView.setOnTouchListener(this);
-//        mFlFloatLogo.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (!mDraging) {
-//                    if (mLlFloatMenu.getVisibility() == View.VISIBLE) {
-//                        mLlFloatMenu.setVisibility(View.GONE);
-//                    } else {
-//                        mLlFloatMenu.setVisibility(View.VISIBLE);
-//                    }
-//                }
-//            }
-//        });
-//        rootFloatView.measure(View.MeasureSpec.makeMeasureSpec(0,
-//                View.MeasureSpec.UNSPECIFIED), View.MeasureSpec
-//                .makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-
-
+        mFlFloatLogo = (FrameLayout) findViewById(R.id.fl_float_view);
+        mIvFloatLogo = (ImageView) findViewById(R.id.iv_float_view_icon);
     }
 
-
-
-    public void showMenu() {
-        if (!mDraging) {
-            if (mLlFloatMenu.getVisibility() == View.VISIBLE) {
-                mLlFloatMenu.setVisibility(View.GONE);
-            } else {
-                mLlFloatMenu.setVisibility(View.VISIBLE);
-            }
-        }
-    }
 
     public void setParams(WindowManager.LayoutParams params) {
         mWmParams = params;
@@ -296,14 +232,12 @@ public class FloatView extends FrameLayout {
                     mWmParams.x = (int) (x - mTouchStartX);
                     mWmParams.y = (int) (y - mTouchStartY);
                     mWindowManager.updateViewLayout(this, mWmParams);
-                    mLlFloatMenu.setVisibility(View.GONE);
                     return false;
                 }
 
                 break;
             case MotionEvent.ACTION_UP:
-                if (mOnClickListner != null) {
-
+                if (mOnClickListner != null && !mDraging) {
                     mOnClickListner.onClick(this);
                 }
 
@@ -383,8 +317,6 @@ public class FloatView extends FrameLayout {
             mWmParams.alpha = 1f;
             mWindowManager.updateViewLayout(this, mWmParams);
 
-//            removeTimerTask();
-//            timerForHide();
 
             mTimer.schedule(new TimerTask() {
                 @Override
@@ -403,29 +335,13 @@ public class FloatView extends FrameLayout {
      */
     private void refreshFloatMenu(boolean right) {
         if (right) {
-            mTvLeft.setVisibility(GONE);
-            mTvRight.setVisibility(VISIBLE);
             FrameLayout.LayoutParams paramsFloatImage = (FrameLayout.LayoutParams) mIvFloatLogo.getLayoutParams();
             paramsFloatImage.gravity = Gravity.RIGHT;
             mIvFloatLogo.setLayoutParams(paramsFloatImage);
             FrameLayout.LayoutParams paramsFlFloat = (FrameLayout.LayoutParams) mFlFloatLogo.getLayoutParams();
             paramsFlFloat.gravity = Gravity.RIGHT;
             mFlFloatLogo.setLayoutParams(paramsFlFloat);
-
-            int padding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics());
-            int padding52 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 52, mContext.getResources().getDisplayMetrics());
-//            LinearLayout.LayoutParams paramsMenuAccount = (LinearLayout.LayoutParams) mTvAccount.getLayoutParams();
-//            paramsMenuAccount.rightMargin = padding;
-//            paramsMenuAccount.leftMargin = padding;
-//            mTvAccount.setLayoutParams(paramsMenuAccount);
-
-            LinearLayout.LayoutParams paramsMenuFb = (LinearLayout.LayoutParams) mTvRight.getLayoutParams();
-            paramsMenuFb.rightMargin = padding52;
-            paramsMenuFb.leftMargin = padding;
-            mTvRight.setLayoutParams(paramsMenuFb);
         } else {
-            mTvLeft.setVisibility(VISIBLE);
-            mTvRight.setVisibility(GONE);
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mIvFloatLogo.getLayoutParams();
             params.setMargins(0, 0, 0, 0);
             params.gravity = Gravity.LEFT;
@@ -433,16 +349,6 @@ public class FloatView extends FrameLayout {
             FrameLayout.LayoutParams paramsFlFloat = (FrameLayout.LayoutParams) mFlFloatLogo.getLayoutParams();
             paramsFlFloat.gravity = Gravity.LEFT;
             mFlFloatLogo.setLayoutParams(paramsFlFloat);
-
-            int padding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics());
-            int padding52 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 52, mContext.getResources().getDisplayMetrics());
-
-            LinearLayout.LayoutParams paramsMenuAccount = (LinearLayout.LayoutParams) mTvLeft.getLayoutParams();
-            paramsMenuAccount.rightMargin = padding;
-            paramsMenuAccount.leftMargin = padding52;
-            mTvLeft.setLayoutParams(paramsMenuAccount);
-
-
         }
     }
 
@@ -451,7 +357,6 @@ public class FloatView extends FrameLayout {
      */
     private void timerForHide() {
         mCanHide = true;
-
         //结束任务
         if (mTimerTask != null) {
             try {
@@ -472,16 +377,6 @@ public class FloatView extends FrameLayout {
         if (mCanHide) {
             mTimer.schedule(mTimerTask, 6000, 3000);
         }
-    }
-
-    /**
-     * 打开上传查询
-     */
-    private void openHtml() {
-        hide();
-        mLlFloatMenu.setVisibility(View.GONE);
-        Intent intent = new Intent(getContext(), MainActivity.class);
-        getContext().startActivity(intent);
     }
 
 
@@ -506,16 +401,12 @@ public class FloatView extends FrameLayout {
     public void setState(boolean b) {
         mShowState = b;
         if (mShowState) {
-            mTvLeft.setText("上传中");
-            mTvRight.setText("上传中");
             mIvFloatLogo.setImageResource(R.drawable.cml_icon_loading);
             Animation rotaAnimation = AnimationUtils.loadAnimation(mContext,
                     R.anim.cml_anim_loading);
             rotaAnimation.setInterpolator(new LinearInterpolator());
             mIvFloatLogo.startAnimation(rotaAnimation);
         } else {
-            mTvLeft.setText("上传失败");
-            mTvRight.setText("上传失败");
             mIvFloatLogo.setImageResource(R.drawable.cml_icon_fail);
             mIvFloatLogo.clearAnimation();
         }
