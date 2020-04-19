@@ -1,6 +1,8 @@
 package com.zorro.suspendedball.widget;
 
 
+import android.animation.Animator;
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.BounceInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -79,8 +82,9 @@ public class FloatView extends FrameLayout {
     private WindowManager.LayoutParams mWmParams;
     private WindowManager mWindowManager;
 
-    private ImageView mIvFloatLogo;
-    private FrameLayout mFlFloatLogo;
+    private FrameLayout flContainer;
+    private ImageView ivFloatView;
+
 
     private boolean mIsRight;//logo是否在右边
     private boolean mCanHide;//是否允许隐藏
@@ -103,11 +107,11 @@ public class FloatView extends FrameLayout {
                 if (mCanHide) {
                     mCanHide = false;
                     if (mIsRight) {
-                        mIvFloatLogo.setImageResource(R.drawable.cml_image_float_right);
+                        ivFloatView.setImageResource(R.drawable.cml_image_float_right);
                     } else {
-                        mIvFloatLogo.setImageResource(R.drawable.cml_image_float_left);
+                        ivFloatView.setImageResource(R.drawable.cml_image_float_left);
                     }
-                    mIvFloatLogo.clearAnimation();
+                    ivFloatView.clearAnimation();
                     mWmParams.alpha = 0.7f;
 //                    mWindowManager.updateViewLayout(FloatView.this, mWmParams);
                     refreshFloatMenu(mIsRight);
@@ -132,7 +136,8 @@ public class FloatView extends FrameLayout {
         view.measure(View.MeasureSpec.makeMeasureSpec(0,
                 View.MeasureSpec.UNSPECIFIED), View.MeasureSpec
                 .makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-        mWindowManager = (WindowManager) getContext().getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+        mWindowManager =
+                (WindowManager) getContext().getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
         // 获取屏幕信息
         mWindowManager.getDefaultDisplay().getMetrics(dm);
@@ -151,8 +156,8 @@ public class FloatView extends FrameLayout {
      * @return
      */
     private void createView(final Context context) {
-        mFlFloatLogo = (FrameLayout) findViewById(R.id.fl_float_view);
-        mIvFloatLogo = (ImageView) findViewById(R.id.iv_float_view_icon);
+        flContainer = (FrameLayout) findViewById(R.id.fl_container);
+        ivFloatView = (ImageView) findViewById(R.id.iv_float_view);
     }
 
 
@@ -207,14 +212,14 @@ public class FloatView extends FrameLayout {
                 mTouchStartX = event.getX();
                 mTouchStartY = event.getY();
                 if (mShowState) {
-                    mIvFloatLogo.setImageResource(R.drawable.cml_icon_loading);
+                    ivFloatView.setImageResource(R.drawable.cml_icon_loading);
                     Animation rotaAnimation = AnimationUtils.loadAnimation(mContext,
                             R.anim.cml_anim_loading);
                     rotaAnimation.setInterpolator(new LinearInterpolator());
-                    mIvFloatLogo.startAnimation(rotaAnimation);
+                    ivFloatView.startAnimation(rotaAnimation);
                 } else {
-                    mIvFloatLogo.setImageResource(R.drawable.cml_icon_fail);
-                    mIvFloatLogo.clearAnimation();
+                    ivFloatView.setImageResource(R.drawable.cml_icon_fail);
+                    ivFloatView.clearAnimation();
                 }
                 mWmParams.alpha = 1f;
                 mWindowManager.updateViewLayout(this, mWmParams);
@@ -242,30 +247,65 @@ public class FloatView extends FrameLayout {
                 }
 
             case MotionEvent.ACTION_CANCEL:
-
                 if (mWmParams.x >= mScreenWidth / 2) {
-                    mWmParams.x = mScreenWidth;
+                    // mWmParams.x = mScreenWidth;
                     mIsRight = true;
                 } else if (mWmParams.x < mScreenWidth / 2) {
                     mIsRight = false;
-                    mWmParams.x = 0;
+                    // mWmParams.x = 0;
                 }
                 if (mShowState) {
-                    mIvFloatLogo.setImageResource(R.drawable.cml_icon_loading);
+                    ivFloatView.setImageResource(R.drawable.cml_icon_loading);
                     Animation rotaAnimation = AnimationUtils.loadAnimation(mContext,
                             R.anim.cml_anim_loading);
                     rotaAnimation.setInterpolator(new LinearInterpolator());
-                    mIvFloatLogo.startAnimation(rotaAnimation);
+                    ivFloatView.startAnimation(rotaAnimation);
                 } else {
-                    mIvFloatLogo.setImageResource(R.drawable.cml_icon_fail);
-                    mIvFloatLogo.clearAnimation();
+                    ivFloatView.setImageResource(R.drawable.cml_icon_fail);
+                   // mIvFloatLogo.clearAnimation();
                 }
+                final ValueAnimator animator = ValueAnimator.ofInt(mWmParams.x, mIsRight ?
+                        mScreenWidth : 0);
+                animator.setInterpolator(new BounceInterpolator());
+                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        mWmParams.x = (int) animation.getAnimatedValue();
+                        mWindowManager.updateViewLayout(FloatView.this, mWmParams);
+                    }
+                });
+                animator.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
 
-                refreshFloatMenu(mIsRight);
-                timerForHide();
-                mWindowManager.updateViewLayout(this, mWmParams);
-                // 初始化
-                mTouchStartX = mTouchStartY = 0;
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        animator.removeAllUpdateListeners();
+                        animator.removeAllListeners();
+                        refreshFloatMenu(mIsRight);
+                        timerForHide();
+//                        // 初始化
+//                        mTouchStartX = mTouchStartY = 0;
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
+                animator.setDuration(500).start();
+//                refreshFloatMenu(mIsRight);
+//                timerForHide();
+//                mWindowManager.updateViewLayout(this, mWmParams);
+//                // 初始化
+//                mTouchStartX = mTouchStartY = 0;
                 break;
         }
         return false;
@@ -305,14 +345,14 @@ public class FloatView extends FrameLayout {
         if (getVisibility() != View.VISIBLE) {
             setVisibility(View.VISIBLE);
             if (mShowState) {
-                mIvFloatLogo.setImageResource(R.drawable.cml_icon_loading);
+                ivFloatView.setImageResource(R.drawable.cml_icon_loading);
                 Animation rotaAnimation = AnimationUtils.loadAnimation(mContext,
                         R.anim.cml_anim_loading);
                 rotaAnimation.setInterpolator(new LinearInterpolator());
-                mIvFloatLogo.startAnimation(rotaAnimation);
+                ivFloatView.startAnimation(rotaAnimation);
             } else {
-                mIvFloatLogo.setImageResource(R.drawable.cml_icon_fail);
-                mIvFloatLogo.clearAnimation();
+                ivFloatView.setImageResource(R.drawable.cml_icon_fail);
+                ivFloatView.clearAnimation();
             }
             mWmParams.alpha = 1f;
             mWindowManager.updateViewLayout(this, mWmParams);
@@ -335,20 +375,24 @@ public class FloatView extends FrameLayout {
      */
     private void refreshFloatMenu(boolean right) {
         if (right) {
-            FrameLayout.LayoutParams paramsFloatImage = (FrameLayout.LayoutParams) mIvFloatLogo.getLayoutParams();
+            FrameLayout.LayoutParams paramsFloatImage =
+                    (FrameLayout.LayoutParams) ivFloatView.getLayoutParams();
             paramsFloatImage.gravity = Gravity.RIGHT;
-            mIvFloatLogo.setLayoutParams(paramsFloatImage);
-            FrameLayout.LayoutParams paramsFlFloat = (FrameLayout.LayoutParams) mFlFloatLogo.getLayoutParams();
+            ivFloatView.setLayoutParams(paramsFloatImage);
+            FrameLayout.LayoutParams paramsFlFloat =
+                    (FrameLayout.LayoutParams) flContainer.getLayoutParams();
             paramsFlFloat.gravity = Gravity.RIGHT;
-            mFlFloatLogo.setLayoutParams(paramsFlFloat);
+            flContainer.setLayoutParams(paramsFlFloat);
         } else {
-            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mIvFloatLogo.getLayoutParams();
+            FrameLayout.LayoutParams params =
+                    (FrameLayout.LayoutParams) ivFloatView.getLayoutParams();
             params.setMargins(0, 0, 0, 0);
             params.gravity = Gravity.LEFT;
-            mIvFloatLogo.setLayoutParams(params);
-            FrameLayout.LayoutParams paramsFlFloat = (FrameLayout.LayoutParams) mFlFloatLogo.getLayoutParams();
+            ivFloatView.setLayoutParams(params);
+            FrameLayout.LayoutParams paramsFlFloat =
+                    (FrameLayout.LayoutParams) flContainer.getLayoutParams();
             paramsFlFloat.gravity = Gravity.LEFT;
-            mFlFloatLogo.setLayoutParams(paramsFlFloat);
+            flContainer.setLayoutParams(paramsFlFloat);
         }
     }
 
@@ -401,14 +445,14 @@ public class FloatView extends FrameLayout {
     public void setState(boolean b) {
         mShowState = b;
         if (mShowState) {
-            mIvFloatLogo.setImageResource(R.drawable.cml_icon_loading);
+            ivFloatView.setImageResource(R.drawable.cml_icon_loading);
             Animation rotaAnimation = AnimationUtils.loadAnimation(mContext,
                     R.anim.cml_anim_loading);
             rotaAnimation.setInterpolator(new LinearInterpolator());
-            mIvFloatLogo.startAnimation(rotaAnimation);
+            ivFloatView.startAnimation(rotaAnimation);
         } else {
-            mIvFloatLogo.setImageResource(R.drawable.cml_icon_fail);
-            mIvFloatLogo.clearAnimation();
+            ivFloatView.setImageResource(R.drawable.cml_icon_fail);
+            ivFloatView.clearAnimation();
         }
     }
 

@@ -1,34 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:showIn="@layout/activity_main"
-    >
+    tools:showIn="@layout/activity_main">
 
 
     <Button
         android:id="@+id/btn_show_float"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="显示FloatView"
-        />
+        android:text="显示FloatView" />
 
     <Button
         android:id="@+id/btn_hide_float"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="隐藏FloatView"
         android:layout_below="@id/btn_show_float"
-        />
+        android:text="隐藏FloatView" />
 
     <Button
         android:id="@+id/btn_state_float"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="状态FloatView"
         android:layout_below="@id/btn_hide_float"
-        />
+        android:text="启动下个Activity" />
 </RelativeLayout>

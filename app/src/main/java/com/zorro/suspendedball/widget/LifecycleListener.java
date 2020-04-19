@@ -5,7 +5,7 @@ package com.zorro.suspendedball.widget;
  * https://github.com/yhaolpz
  */
 
-interface LifecycleListener {
+public interface LifecycleListener {
 
     void onShow();
 

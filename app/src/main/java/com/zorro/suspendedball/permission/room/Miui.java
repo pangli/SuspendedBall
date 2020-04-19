@@ -10,7 +10,7 @@ import android.view.WindowManager;
 
 import com.zorro.suspendedball.permission.PermissionListener;
 import com.zorro.suspendedball.permission.PermissionUtil;
-import com.zorro.suspendedball.widget.FloatLifecycle;
+import com.zorro.suspendedball.widget.FloatLifecycleReceiver;
 import com.zorro.suspendedball.widget.ResumedListener;
 
 import java.lang.reflect.Field;
@@ -109,7 +109,7 @@ public class Miui {
                 reqForMiui89(context);
                 break;
         }
-        FloatLifecycle.setResumedListener(new ResumedListener() {
+        FloatLifecycleReceiver.setResumedListener(new ResumedListener() {
             @Override
             public void onResumed() {
                 if (PermissionUtil.hasPermission(context)) {

@@ -10,9 +10,6 @@ import android.provider.Settings;
 
 import androidx.annotation.RequiresApi;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * 用于在内部自动申请权限
  * https://github.com/yhaolpz
@@ -20,7 +17,7 @@ import java.util.List;
 
 public class FloatActivity extends Activity {
 
-    private static List<PermissionListener> mPermissionListenerList;
+    // private static List<PermissionListener> mPermissionListenerList;
     private static PermissionListener mPermissionListener;
 
 
@@ -34,9 +31,9 @@ public class FloatActivity extends Activity {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void requestAlertWindowPermission() {
-            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-            intent.setData(Uri.parse("package:" + getPackageName()));
-            startActivityForResult(intent, 756232212);
+        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+        intent.setData(Uri.parse("package:" + getPackageName()));
+        startActivityForResult(intent, 756232212);
 
     }
 
@@ -54,36 +51,42 @@ public class FloatActivity extends Activity {
         finish();
     }
 
-  public  static synchronized void request(Context context, PermissionListener permissionListener) {
-        if (PermissionUtil.hasPermission(context)) {
-            permissionListener.onSuccess();
-            return;
+    public static synchronized void request(Context context, PermissionListener permissionListener) {
+        if (permissionListener != null) {
+            mPermissionListener = permissionListener;
+            if (PermissionUtil.hasPermission(context)) {
+                mPermissionListener.onSuccess();
+            }else {
+                Intent intent = new Intent(context, FloatActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
         }
-        if (mPermissionListenerList == null) {
-            mPermissionListenerList = new ArrayList<>();
-            mPermissionListener = new PermissionListener() {
-                @Override
-                public void onSuccess() {
-                    for (PermissionListener listener : mPermissionListenerList) {
-                        listener.onSuccess();
-                    }
-                    mPermissionListenerList.clear();
-                }
+//        if (mPermissionListenerList == null) {
+//            mPermissionListenerList = new ArrayList<>();
+//            mPermissionListener = new PermissionListener() {
+//                @Override
+//                public void onSuccess() {
+//                    for (PermissionListener listener : mPermissionListenerList) {
+//                        listener.onSuccess();
+//                    }
+//                    mPermissionListenerList.clear();
+//                }
+//
+//                @Override
+//                public void onFail() {
+//                    for (PermissionListener listener : mPermissionListenerList) {
+//                        listener.onFail();
+//                    }
+//                    mPermissionListenerList.clear();
+//                }
+//            };
+//            Intent intent = new Intent(context, FloatActivity.class);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            context.startActivity(intent);
+        }
+        // mPermissionListenerList.add(permissionListener);
 
-                @Override
-                public void onFail() {
-                    for (PermissionListener listener : mPermissionListenerList) {
-                        listener.onFail();
-                    }
-                    mPermissionListenerList.clear();
-                }
-            };
-            Intent intent = new Intent(context, FloatActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent);
-        }
-        mPermissionListenerList.add(permissionListener);
-    }
 
 
 }

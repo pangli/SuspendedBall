@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 /**
  * Created by yhao on 17-12-1.
@@ -18,14 +19,12 @@ import android.os.Handler;
  * 3.resumeCount计时，针对一些只执行onPause不执行onStop的奇葩情况
  */
 
-public class FloatLifecycle extends BroadcastReceiver implements Application.ActivityLifecycleCallbacks {
+public class FloatLifecycleReceiver extends BroadcastReceiver implements Application.ActivityLifecycleCallbacks {
 
     private static final String SYSTEM_DIALOG_REASON_KEY = "reason";
     private static final String SYSTEM_DIALOG_REASON_HOME_KEY = "homekey";
     private static final long delay = 300;
     private Handler mHandler;
-    private Class[] activities;
-    private boolean showFlag;
     private int startCount;
     private int resumeCount;
     private boolean appBackground;
@@ -34,32 +33,27 @@ public class FloatLifecycle extends BroadcastReceiver implements Application.Act
     private static int num = 0;
 
 
-    FloatLifecycle(Context applicationContext, boolean showFlag, Class[] activities, LifecycleListener lifecycleListener) {
-        this.showFlag = showFlag;
-        this.activities = activities;
+    /**
+     * @param context
+     * @param lifecycleListener
+     */
+    public FloatLifecycleReceiver(Context context, LifecycleListener lifecycleListener) {
         num++;
         mLifecycleListener = lifecycleListener;
         mHandler = new Handler();
-        ((Application) applicationContext).registerActivityLifecycleCallbacks(this);
-        applicationContext.registerReceiver(this, new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
+        if (context.getApplicationContext() instanceof Application) {
+            ((Application) context.getApplicationContext()).registerActivityLifecycleCallbacks(this);
+        } else {
+            Log.e("FloatLifecycleReceiver", "必须是ApplicationContext");
+            return;
+        }
+        context.registerReceiver(this,
+                new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
     }
 
     public static void setResumedListener(ResumedListener resumedListener) {
         sResumedListener = resumedListener;
     }
-
-    private boolean needShow(Activity activity) {
-        if (activities == null) {
-            return true;
-        }
-        for (Class a : activities) {
-            if (a.isInstance(activity)) {
-                return showFlag;
-            }
-        }
-        return !showFlag;
-    }
-
 
     @Override
     public void onActivityResumed(Activity activity) {
@@ -71,11 +65,7 @@ public class FloatLifecycle extends BroadcastReceiver implements Application.Act
             }
         }
         resumeCount++;
-        if (needShow(activity)) {
-            mLifecycleListener.onShow();
-        } else {
-            mLifecycleListener.onHide();
-        }
+        mLifecycleListener.onShow();
         if (appBackground) {
             appBackground = false;
         }
@@ -89,7 +79,9 @@ public class FloatLifecycle extends BroadcastReceiver implements Application.Act
             public void run() {
                 if (resumeCount == 0) {
                     appBackground = true;
-                    mLifecycleListener.onBackToDesktop();
+                    if (mLifecycleListener != null) {
+                        mLifecycleListener.onBackToDesktop();
+                    }
                 }
             }
         }, delay);
@@ -106,7 +98,9 @@ public class FloatLifecycle extends BroadcastReceiver implements Application.Act
     public void onActivityStopped(Activity activity) {
         startCount--;
         if (startCount == 0) {
-            mLifecycleListener.onBackToDesktop();
+            if (mLifecycleListener != null) {
+                mLifecycleListener.onBackToDesktop();
+            }
         }
     }
 
@@ -116,7 +110,9 @@ public class FloatLifecycle extends BroadcastReceiver implements Application.Act
         if (action != null && action.equals(Intent.ACTION_CLOSE_SYSTEM_DIALOGS)) {
             String reason = intent.getStringExtra(SYSTEM_DIALOG_REASON_KEY);
             if (SYSTEM_DIALOG_REASON_HOME_KEY.equals(reason)) {
-                mLifecycleListener.onBackToDesktop();
+                if (mLifecycleListener != null) {
+                    mLifecycleListener.onBackToDesktop();
+                }
             }
         }
     }
@@ -138,5 +134,9 @@ public class FloatLifecycle extends BroadcastReceiver implements Application.Act
 
     }
 
+    public void unRegisterReceiver(Context context) {
+        ((Application) context).unregisterActivityLifecycleCallbacks(this);
+        context.unregisterReceiver(this);
+    }
 
 }
