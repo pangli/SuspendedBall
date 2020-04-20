@@ -8,15 +8,10 @@ package com.zorro.suspendedball.widget.interfaces;
  * @Author: yhao
  */
 public abstract class BaseFloatView {
-    public abstract void setGravity(int gravity, int xOffset, int yOffset);
+    public abstract void createFloat();
 
-    public abstract void init();
-
-    public abstract void show();
-
-    public abstract void hide();
+    public abstract void setVisible(int visible, boolean needShow);
 
     public abstract void dismiss();
 
-    public abstract void destroy();
 }

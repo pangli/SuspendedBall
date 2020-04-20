@@ -5,21 +5,22 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
-
-import com.zorro.suspendedball.R;
-import com.zorro.suspendedball.permission.FloatActivity;
-import com.zorro.suspendedball.permission.PermissionListener;
-import com.zorro.suspendedball.permission.PermissionUtil;
-import com.zorro.suspendedball.widget.impl.FloatPhone;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.zorro.suspendedball.EasyFloat;
+import com.zorro.suspendedball.R;
+import com.zorro.suspendedball.enums.ShowPattern;
+import com.zorro.suspendedball.permission.PermissionUtils;
+import com.zorro.suspendedball.widget.interfaces.OnFloatCallbacks;
 
 
 public class MainActivity1 extends AppCompatActivity {
     //    private FloatService mFloatService;
 //    private Boolean aBoolean = false;
-    private FloatPhone floatPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +31,7 @@ public class MainActivity1 extends AppCompatActivity {
         btnShowFloat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!PermissionUtil.hasPermission(MainActivity1.this)) {
-                    showFloatPermissionDialog();
-                } else {
-//                    showFloatingView();
-                    floatPhone.init();
-                }
+                checkPermission();
             }
         });
 
@@ -43,7 +39,7 @@ public class MainActivity1 extends AppCompatActivity {
         btnHideFloat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                hideFloatingView();
+                EasyFloat.hideAppFloat("boll");
             }
         });
         Button btnstateFloat = (Button) findViewById(R.id.btn_state_float);
@@ -58,116 +54,50 @@ public class MainActivity1 extends AppCompatActivity {
             }
         });
 
-//        try {
-//            Intent intent = new Intent(this, FloatService.class);
-//            startService(intent);
-//            bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
-
-        floatPhone = new FloatPhone(this);
-
 
     }
-
 
     /**
-     * 弹出是否确认退出的对话框
+     * 检测浮窗权限是否开启，若没有给与申请提示框（非必须，申请依旧是EasyFloat内部内保进行）
      */
-    private void showFloatPermissionDialog() {
-        new AlertDialog.Builder(this)
-                .setCancelable(false)
-                .setTitle("提示")
-                .setMessage("请开启悬浮窗权限")
-                .setPositiveButton("开启", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-//                        requestFloatPermission();
-                        floatPhone.init();
-                        dialog.dismiss();
-                    }
-                })
-                .create().show();
+    private void checkPermission() {
+        if (PermissionUtils.checkPermission(this)) {
+            showAppFloat();
+        } else {
+            new AlertDialog.Builder(this)
+                    .setMessage("使用浮窗功能，需要您授权悬浮窗权限。")
+                    .setPositiveButton("去开启", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            showAppFloat();
+                        }
+                    })
+                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    }).show();
+
+        }
     }
-
-    //
-    private void requestFloatPermission() {
-        FloatActivity.request(this, new PermissionListener() {
-            @Override
-            public void onSuccess() {
-                floatPhone.init();
-            }
-
-            @Override
-            public void onFail() {
-
-            }
-        });
-    }
-
 
     /**
      * 显示悬浮图标
      */
-    public void showFloatingView() {
-//        if (mFloatService != null) {
-//            mFloatService.createFloatingWindow();
-//        }
-        if (floatPhone != null) {
-            floatPhone.show();
-        }
+    public void showAppFloat() {
+        EasyFloat.with(this).setTag("boll").setShowPattern(ShowPattern.FOREGROUND).registerCallbacks(new OnFloatCallbacks() {
+            @Override
+            public void updateLayoutParams(WindowManager.LayoutParams params) {
+
+            }
+
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity1.this, "我被点击了", Toast.LENGTH_LONG).show();
+            }
+        }).show();
     }
 
-    /**
-     * 隐藏悬浮图标
-     */
-    public void hideFloatingView() {
-//        if (mFloatService != null) {
-//            mFloatService.removeFloatView();
-//        }
-        if (floatPhone != null) {
-            floatPhone.hide();
-        }
-    }
-//
-//    public void changState(boolean b) {
-//        if (mFloatService != null) {
-//            mFloatService.setState(b);
-//        }
-//    }
 
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-//        destroy();
-    }
-
-//    /**
-//     * 释放PJSDK数据
-//     */
-//    public void destroy() {
-//        try {
-//            stopService(new Intent(this, FloatService.class));
-//            unbindService(mServiceConnection);
-//        } catch (Exception e) {
-//        }
-//    }
-//
-//    /**
-//     * 连接到Service
-//     */
-//    private final ServiceConnection mServiceConnection = new ServiceConnection() {
-//        @Override
-//        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-//            mFloatService = ((FloatService.FloatViewServiceBinder) iBinder).getService();
-//        }
-//
-//        @Override
-//        public void onServiceDisconnected(ComponentName componentName) {
-//            mFloatService = null;
-//        }
-//    };
 }

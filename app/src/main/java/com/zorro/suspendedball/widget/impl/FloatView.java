@@ -13,20 +13,19 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.zorro.suspendedball.R;
 import com.zorro.suspendedball.widget.interfaces.OnFloatCallbacks;
 
 import java.util.Timer;
 import java.util.TimerTask;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 /**
  * Package:   com.zorro.suspendedball.widget
@@ -47,7 +46,7 @@ public class FloatView extends FrameLayout {
     private ImageView ivFloatView;
 
     //
-    private boolean isRight;//logo是否在右边靠右
+    private boolean isRight = true;//logo是否在右边靠右
     private boolean mCanHide;//是否允许隐藏
     private float mTouchStartX;
     private float mTouchStartY;
@@ -108,6 +107,9 @@ public class FloatView extends FrameLayout {
         mScreenWidth = dm.widthPixels;
         mScreenHeight = dm.heightPixels;
         mTimer = new Timer();
+        //处理按钮自动隐藏
+        refreshFloatViewGravity(isRight);
+        startTimerForHide();
     }
 
     public void setWindowMangerLayoutParams(WindowManager.LayoutParams params) {
@@ -214,7 +216,7 @@ public class FloatView extends FrameLayout {
                 }
                 final ValueAnimator animator = ValueAnimator.ofInt(wmParams.x, isRight ?
                         mScreenWidth : 0);
-                //animator.setInterpolator(new BounceInterpolator());
+//                animator.setInterpolator(new BounceInterpolator());
                 animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator animation) {
@@ -271,6 +273,10 @@ public class FloatView extends FrameLayout {
             if (onFloatCallbacks != null) {
                 onFloatCallbacks.updateLayoutParams(wmParams);
             }
+            //处理按钮自动隐藏
+            removeTimerTask();
+            refreshFloatViewGravity(isRight);
+            startTimerForHide();
             // mWindowManager.updateViewLayout(this, wmParams);
         }
     }
