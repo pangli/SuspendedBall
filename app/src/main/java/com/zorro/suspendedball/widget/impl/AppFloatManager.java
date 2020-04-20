@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.zorro.suspendedball.config.FloatConfig;
-import com.zorro.suspendedball.widget.interfaces.BaseFloatView;
 import com.zorro.suspendedball.widget.interfaces.OnFloatCallbacks;
 
 
@@ -20,7 +19,7 @@ import com.zorro.suspendedball.widget.interfaces.OnFloatCallbacks;
  * @Create: 2017-11-14 17:15:35
  * @Author: yhao
  */
-public class AppFloatManager extends BaseFloatView {
+public class AppFloatManager {
     private Context context;
     private WindowManager windowManager;
     private WindowManager.LayoutParams params;
@@ -37,7 +36,6 @@ public class AppFloatManager extends BaseFloatView {
         this.config = config;
     }
 
-    @Override
     public void createFloat() {
         initParams();
         addView();
@@ -114,7 +112,6 @@ public class AppFloatManager extends BaseFloatView {
         }
     }
 
-    @Override
     public void dismiss() {
         removeView();
     }

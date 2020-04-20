@@ -10,9 +10,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -157,11 +159,14 @@ public class FloatView extends FrameLayout {
                 }
                 break;
         }
+
+        Log.e("Zorro", "我旋转了多少度=" + mWindowManager.getDefaultDisplay().getRotation());
         if (onFloatCallbacks != null) {
             onFloatCallbacks.updateLayoutParams(wmParams);
         }
         // mWindowManager.updateViewLayout(this, wmParams);
     }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -374,5 +379,18 @@ public class FloatView extends FrameLayout {
         }
     }
 
+    /**
+     * 获取手机屏幕的旋转角度
+     * {@link Surface#ROTATION_0 Surface.ROTATION_0}.手机如果有刘海则在顶部
+     * {@link Surface#ROTATION_90 Surface.ROTATION_90}.手机如果有刘海则在左手边
+     * {@link Surface#ROTATION_180 Surface.ROTATION_180}.手机如果有刘海则在底部
+     * {@link Surface#ROTATION_270 Surface.ROTATION_270}.手机如果有刘海则在右手边
+     */
 
+    public int getScreenAngle() {
+        if (mWindowManager != null) {
+            return mWindowManager.getDefaultDisplay().getRotation();
+        }
+        return Surface.ROTATION_0;
+    }
 }
