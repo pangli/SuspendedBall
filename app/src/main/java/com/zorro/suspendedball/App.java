@@ -2,6 +2,8 @@ package com.zorro.suspendedball;
 
 import android.app.Application;
 
+import com.zorro.easyfloat.EasyFloat;
+
 /**
  * Package:   com.zorro.suspendedball
  * ClassName: App

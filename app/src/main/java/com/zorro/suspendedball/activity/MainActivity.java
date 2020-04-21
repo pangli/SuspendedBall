@@ -3,25 +3,22 @@ package com.zorro.suspendedball.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.zorro.suspendedball.EasyFloat;
+import com.zorro.easyfloat.EasyFloat;
+import com.zorro.easyfloat.enums.ShowPattern;
+import com.zorro.easyfloat.permission.PermissionUtils;
+import com.zorro.easyfloat.widget.interfaces.OnFloatViewClick;
 import com.zorro.suspendedball.R;
-import com.zorro.suspendedball.enums.ShowPattern;
-import com.zorro.suspendedball.permission.PermissionUtils;
-import com.zorro.suspendedball.widget.interfaces.OnFloatViewClick;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
