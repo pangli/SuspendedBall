@@ -15,10 +15,10 @@ import com.zorro.suspendedball.widget.impl.FloatManager;
 import com.zorro.suspendedball.widget.interfaces.OnFloatViewClick;
 
 /**
- * Package:   com.lzf.easyfloat
+ * Package:   com.zorro.suspendedball
  * ClassName: EasyFloat
- * Created by Zorro on 2020/4/17 11:59.
- * 备注：悬浮窗使用工具类
+ * Created by Zorro on 2020/4/21 15:04
+ * 备注：
  */
 public class EasyFloat {
 

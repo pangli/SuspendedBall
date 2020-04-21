@@ -14,11 +14,10 @@ import com.zorro.suspendedball.widget.interfaces.OnFloatViewClick;
 
 
 /**
- * @Copyright © 2017 Analysys Inc. All rights reserved.
- * @Description:
- * @Version: 1.0.9
- * @Create: 2017-11-14 17:15:35
- * @Author: yhao
+ * Package:   com.zorro.suspendedball.widget.impl
+ * ClassName: AppFloatManager
+ * Created by Zorro on 2020/4/21 15:01
+ * 备注：  系统浮窗的管理类，包括浮窗的创建、销毁管理等
  */
 public class AppFloatManager {
     private Context context;

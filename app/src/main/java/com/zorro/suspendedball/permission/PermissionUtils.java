@@ -19,9 +19,9 @@ import com.zorro.suspendedball.permission.room.RomUtils;
 import java.lang.reflect.Field;
 
 /**
- * Package:   com.lzf.easyfloat.permission.room
+ * Package:   com.zorro.suspendedball.permission
  * ClassName: PermissionUtils
- * Created by Zorro on 2020/4/15 19:26.
+ * Created by Zorro on 2020/4/21 15:00
  * 备注：悬浮窗权限工具类
  */
 public class PermissionUtils {

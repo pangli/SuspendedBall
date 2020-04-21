@@ -24,7 +24,7 @@
         android:id="@+id/iv_float_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:src="@drawable/cml_icon_fail" />
+        android:layout_gravity="start|center_vertical"
+        android:src="@drawable/gp_float_main_icon" />
 </FrameLayout>
 

@@ -3,11 +3,10 @@ package com.zorro.suspendedball.widget.interfaces;
 import android.view.WindowManager;
 
 /**
- * @Copyright © 2017 Analysys Inc. All rights reserved.
- * @Description: https://github.com/yhaolpz
- * @Version: 1.0
- * @Create: 2017/12/22 17:05:41
- * @Author: yhao
+ * Package:   com.zorro.suspendedball.widget.interfaces
+ * ClassName: OnFloatUpdateLayoutCallbacks
+ * Created by Zorro on 2020/4/21 15:02
+ * 备注：WindowManager 位置更新接口
  */
 public interface OnFloatUpdateLayoutCallbacks {
     void updateLayoutParams(WindowManager.LayoutParams params);

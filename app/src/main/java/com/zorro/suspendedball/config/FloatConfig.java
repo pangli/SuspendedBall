@@ -6,10 +6,10 @@ import com.zorro.suspendedball.enums.ShowPattern;
 import com.zorro.suspendedball.widget.interfaces.OnFloatViewClick;
 
 /**
- * Package:   com.lzf.easyfloat.data
+ * Package:   com.zorro.suspendedball.config
  * ClassName: FloatConfig
- * Created by Zorro on 2020/4/16 10:23.
- * 备注：
+ * Created by Zorro on 2020/4/21 14:59
+ * 备注：   悬浮球配置
  */
 public class FloatConfig {
 

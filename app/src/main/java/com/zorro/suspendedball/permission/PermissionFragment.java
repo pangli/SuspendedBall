@@ -12,9 +12,9 @@ import androidx.annotation.Nullable;
 
 
 /**
- * Package:   com.lzf.easyfloat.permission
+ * Package:   com.zorro.suspendedball.permission
  * ClassName: PermissionFragment
- * Created by Zorro on 2020/4/15 19:47.
+ * Created by Zorro on 2020/4/21 15:00
  * 备注：用于浮窗权限的申请，自动处理回调结果
  */
 public class PermissionFragment extends Fragment {

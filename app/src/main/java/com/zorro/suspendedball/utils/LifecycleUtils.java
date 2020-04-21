@@ -15,10 +15,10 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
- * Package:   com.lzf.easyfloat.utils
+ * Package:   com.zorro.suspendedball.utils
  * ClassName: LifecycleUtils
- * Created by Zorro on 2020/4/16 13:31.
- * 备注：通过生命周期回调，判断系统浮窗的过滤信息，以及app是否位于前台，通过广播通知浮窗service
+ * Created by Zorro on 2020/4/21 15:01
+ * 备注：通过生命周期回调，判断系统浮窗的信息，以及app是否位于前台
  */
 public class LifecycleUtils {
     private static int activityCount = 0;

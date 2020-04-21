@@ -3,9 +3,9 @@ package com.zorro.suspendedball;
 import android.app.Application;
 
 /**
- * Package:   com.lzf.easyfloat.example
+ * Package:   com.zorro.suspendedball
  * ClassName: App
- * Created by Zorro on 2020/4/17 14:32.
+ * Created by Zorro on 2020/4/21 15:04
  * 备注：
  */
 public class App extends Application {

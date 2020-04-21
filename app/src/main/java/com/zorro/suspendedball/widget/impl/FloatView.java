@@ -73,9 +73,9 @@ public class FloatView extends FrameLayout {
                 if (mCanHide) {
                     mCanHide = false;
                     if (isRight) {
-                        ivFloatView.setImageResource(R.drawable.cml_image_float_right);
+                        ivFloatView.setImageResource(R.drawable.gp_float_main_icon_half_rs);
                     } else {
-                        ivFloatView.setImageResource(R.drawable.cml_image_float_left);
+                        ivFloatView.setImageResource(R.drawable.gp_float_main_icon_half_ls);
                     }
                     refreshFloatViewGravity(isRight);
                     wmParams.alpha = 0.7f;
@@ -100,7 +100,7 @@ public class FloatView extends FrameLayout {
 
     public void init(Context context) {
         this.mContext = context;
-        View view = LayoutInflater.from(mContext).inflate(R.layout.cml_widget_float_view, this);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.sino_widget_float_view, this);
         flContainer = (FrameLayout) findViewById(R.id.fl_container);
         ivFloatView = (ImageView) findViewById(R.id.iv_float_view);
         view.measure(MeasureSpec.makeMeasureSpec(0,
@@ -204,7 +204,7 @@ public class FloatView extends FrameLayout {
                 mTouchStartX = event.getX();
                 mTouchStartY = event.getY();
                 //更新UI
-                ivFloatView.setImageResource(R.drawable.cml_icon_fail);
+                ivFloatView.setImageResource(R.drawable.gp_float_main_icon);
                 wmParams.alpha = 1f;
                 if (onFloatUpdateLayoutCallbacks != null) {
                     onFloatUpdateLayoutCallbacks.updateLayoutParams(wmParams);
@@ -304,7 +304,7 @@ public class FloatView extends FrameLayout {
     public void show() {
         if (getVisibility() != View.VISIBLE) {
             setVisibility(View.VISIBLE);
-            ivFloatView.setImageResource(R.drawable.cml_icon_fail);
+            ivFloatView.setImageResource(R.drawable.gp_float_main_icon);
             wmParams.alpha = 1f;
             if (onFloatUpdateLayoutCallbacks != null) {
                 onFloatUpdateLayoutCallbacks.updateLayoutParams(wmParams);
@@ -335,18 +335,18 @@ public class FloatView extends FrameLayout {
     private void refreshFloatViewGravity(boolean right) {
         if (right) {
             LayoutParams paramsFloatImage = (LayoutParams) ivFloatView.getLayoutParams();
-            paramsFloatImage.gravity = Gravity.END;
+            paramsFloatImage.gravity = Gravity.END | Gravity.CENTER_VERTICAL;
             ivFloatView.setLayoutParams(paramsFloatImage);
             LayoutParams paramsFlFloat = (LayoutParams) flContainer.getLayoutParams();
-            paramsFlFloat.gravity = Gravity.END;
+            paramsFlFloat.gravity = Gravity.END | Gravity.CENTER_VERTICAL;
             flContainer.setLayoutParams(paramsFlFloat);
         } else {
             LayoutParams params = (LayoutParams) ivFloatView.getLayoutParams();
             //params.setMargins(0, 0, 0, 0);
-            params.gravity = Gravity.START;
+            params.gravity = Gravity.START | Gravity.CENTER_VERTICAL;
             ivFloatView.setLayoutParams(params);
             LayoutParams paramsFlFloat = (LayoutParams) flContainer.getLayoutParams();
-            paramsFlFloat.gravity = Gravity.START;
+            paramsFlFloat.gravity = Gravity.START | Gravity.CENTER_VERTICAL;
             flContainer.setLayoutParams(paramsFlFloat);
         }
     }
