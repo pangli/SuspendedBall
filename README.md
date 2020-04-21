@@ -44,6 +44,7 @@ PermissionUtils.checkPermission(this)
 PermissionUtils.requestPermission(this，OnPermissionResult)
 ```
 ### 系统浮窗的相关API：
+```
 // 关闭浮窗
 dismissAppFloat(String tag)
 
@@ -52,7 +53,7 @@ hideAppFloat(String tag)
 
 // 显示浮窗
 showAppFloat(String tag)
-
+```
 ## 关于混淆：
 ```
 -keep class com.zorro.easyfloat.** {*;}
