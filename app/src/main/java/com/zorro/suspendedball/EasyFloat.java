@@ -12,7 +12,7 @@ import com.zorro.suspendedball.permission.PermissionUtils;
 import com.zorro.suspendedball.utils.LifecycleUtils;
 import com.zorro.suspendedball.widget.impl.AppFloatManager;
 import com.zorro.suspendedball.widget.impl.FloatManager;
-import com.zorro.suspendedball.widget.interfaces.OnFloatCallbacks;
+import com.zorro.suspendedball.widget.interfaces.OnFloatViewClick;
 
 /**
  * Package:   com.lzf.easyfloat
@@ -115,7 +115,7 @@ public class EasyFloat {
         /**
          * 通过传统接口，进行浮窗的各种状态回调
          */
-        public Builder registerCallbacks(OnFloatCallbacks callbacks) {
+        public Builder registerCallbacks(OnFloatViewClick callbacks) {
             config.setCallbacks(callbacks);
             return this;
         }

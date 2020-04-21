@@ -9,7 +9,8 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.zorro.suspendedball.config.FloatConfig;
-import com.zorro.suspendedball.widget.interfaces.OnFloatCallbacks;
+import com.zorro.suspendedball.widget.interfaces.OnFloatUpdateLayoutCallbacks;
+import com.zorro.suspendedball.widget.interfaces.OnFloatViewClick;
 
 
 /**
@@ -76,14 +77,15 @@ public class AppFloatManager {
     private void addView() {
         floatView = new FloatView(context);
         floatView.setWindowMangerLayoutParams(params);
-        floatView.setOnFloatCallbacks(new OnFloatCallbacks() {
+        floatView.setOnFloatUpdateLayoutCallbacks(new OnFloatUpdateLayoutCallbacks() {
             @Override
             public void updateLayoutParams(WindowManager.LayoutParams params) {
                 if (windowManager != null && floatView != null) {
                     windowManager.updateViewLayout(floatView, params);
                 }
             }
-
+        });
+        floatView.setOnFloatViewClick(new OnFloatViewClick() {
             @Override
             public void onClick(View v) {
                 if (config.getCallbacks() != null) {

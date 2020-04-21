@@ -25,7 +25,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.zorro.suspendedball.R;
-import com.zorro.suspendedball.widget.interfaces.OnFloatCallbacks;
+import com.zorro.suspendedball.widget.interfaces.OnFloatUpdateLayoutCallbacks;
+import com.zorro.suspendedball.widget.interfaces.OnFloatViewClick;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -43,7 +44,8 @@ public class FloatView extends FrameLayout {
     //
     private WindowManager.LayoutParams wmParams;
     private WindowManager mWindowManager;
-    private OnFloatCallbacks onFloatCallbacks;
+    private OnFloatUpdateLayoutCallbacks onFloatUpdateLayoutCallbacks;
+    private OnFloatViewClick onFloatViewClick;
     //
     private FrameLayout flContainer;
     private ImageView ivFloatView;
@@ -123,8 +125,12 @@ public class FloatView extends FrameLayout {
         this.wmParams = params;
     }
 
-    public void setOnFloatCallbacks(OnFloatCallbacks onFloatCallbacks) {
-        this.onFloatCallbacks = onFloatCallbacks;
+    public void setOnFloatUpdateLayoutCallbacks(OnFloatUpdateLayoutCallbacks onFloatUpdateLayoutCallbacks) {
+        this.onFloatUpdateLayoutCallbacks = onFloatUpdateLayoutCallbacks;
+    }
+
+    public void setOnFloatViewClick(OnFloatViewClick onFloatViewClick) {
+        this.onFloatViewClick = onFloatViewClick;
     }
 
     /**
@@ -177,8 +183,8 @@ public class FloatView extends FrameLayout {
         }
 
         Log.e("Zorro", "我旋转了多少度=" + currentScreenAngle);
-        if (onFloatCallbacks != null) {
-            onFloatCallbacks.updateLayoutParams(wmParams);
+        if (onFloatUpdateLayoutCallbacks != null) {
+            onFloatUpdateLayoutCallbacks.updateLayoutParams(wmParams);
         }
 
         Log.e("Zorro", "left----" + rect.left + "-----bottom-----" + rect.bottom + "-----top-----" + rect.top + "-----right-----" + rect.right);
@@ -200,8 +206,8 @@ public class FloatView extends FrameLayout {
                 //更新UI
                 ivFloatView.setImageResource(R.drawable.cml_icon_fail);
                 wmParams.alpha = 1f;
-                if (onFloatCallbacks != null) {
-                    onFloatCallbacks.updateLayoutParams(wmParams);
+                if (onFloatUpdateLayoutCallbacks != null) {
+                    onFloatUpdateLayoutCallbacks.updateLayoutParams(wmParams);
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -214,16 +220,16 @@ public class FloatView extends FrameLayout {
                     // 更新浮动窗口位置参数
                     wmParams.x = (int) (x - mTouchStartX);
                     wmParams.y = (int) (y - mTouchStartY);
-                    if (onFloatCallbacks != null) {
-                        onFloatCallbacks.updateLayoutParams(wmParams);
+                    if (onFloatUpdateLayoutCallbacks != null) {
+                        onFloatUpdateLayoutCallbacks.updateLayoutParams(wmParams);
                     }
                     return false;
                 }
 
                 break;
             case MotionEvent.ACTION_UP:
-                if (onFloatCallbacks != null && !isDrag) {
-                    onFloatCallbacks.onClick(this);
+                if (onFloatViewClick != null && !isDrag) {
+                    onFloatViewClick.onClick(this);
                 }
                 isDrag = false;
             case MotionEvent.ACTION_CANCEL:
@@ -257,8 +263,8 @@ public class FloatView extends FrameLayout {
                     @Override
                     public void onAnimationUpdate(ValueAnimator animation) {
                         wmParams.x = (int) animation.getAnimatedValue();
-                        if (onFloatCallbacks != null) {
-                            onFloatCallbacks.updateLayoutParams(wmParams);
+                        if (onFloatUpdateLayoutCallbacks != null) {
+                            onFloatUpdateLayoutCallbacks.updateLayoutParams(wmParams);
                         }
                     }
                 });
@@ -300,8 +306,8 @@ public class FloatView extends FrameLayout {
             setVisibility(View.VISIBLE);
             ivFloatView.setImageResource(R.drawable.cml_icon_fail);
             wmParams.alpha = 1f;
-            if (onFloatCallbacks != null) {
-                onFloatCallbacks.updateLayoutParams(wmParams);
+            if (onFloatUpdateLayoutCallbacks != null) {
+                onFloatUpdateLayoutCallbacks.updateLayoutParams(wmParams);
             }
             //处理按钮自动隐藏
             removeTimerTask();

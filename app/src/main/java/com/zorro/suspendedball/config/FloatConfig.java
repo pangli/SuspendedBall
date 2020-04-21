@@ -3,7 +3,7 @@ package com.zorro.suspendedball.config;
 import android.view.View;
 
 import com.zorro.suspendedball.enums.ShowPattern;
-import com.zorro.suspendedball.widget.interfaces.OnFloatCallbacks;
+import com.zorro.suspendedball.widget.interfaces.OnFloatViewClick;
 
 /**
  * Package:   com.lzf.easyfloat.data
@@ -23,7 +23,7 @@ public class FloatConfig {
     private ShowPattern showPattern = ShowPattern.FOREGROUND;
 
 
-    private OnFloatCallbacks callbacks;
+    private OnFloatViewClick callbacks;
     // 是否需要显示，当过滤信息匹配上时，该值为false（用户手动调用隐藏，该值也为false，相当于手动过滤）
     private boolean needShow = true;
 
@@ -63,11 +63,11 @@ public class FloatConfig {
         this.showPattern = showPattern;
     }
 
-    public OnFloatCallbacks getCallbacks() {
+    public OnFloatViewClick getCallbacks() {
         return this.callbacks;
     }
 
-    public void setCallbacks(OnFloatCallbacks callbacks) {
+    public void setCallbacks(OnFloatViewClick callbacks) {
         this.callbacks = callbacks;
     }
 

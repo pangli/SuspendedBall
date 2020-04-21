@@ -1,6 +1,5 @@
 package com.zorro.suspendedball.widget.interfaces;
 
-import android.view.View;
 import android.view.WindowManager;
 
 /**
@@ -10,8 +9,6 @@ import android.view.WindowManager;
  * @Create: 2017/12/22 17:05:41
  * @Author: yhao
  */
-public interface OnFloatCallbacks {
+public interface OnFloatUpdateLayoutCallbacks {
     void updateLayoutParams(WindowManager.LayoutParams params);
-
-    void onClick(View v);
 }
