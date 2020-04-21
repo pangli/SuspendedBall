@@ -6,6 +6,7 @@ import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -55,6 +56,8 @@ public class FloatView extends FrameLayout {
     private int mScreenWidth;
     private int mScreenHeight;
     private boolean isDrag;
+    private int currentScreenAngle;//屏幕方向
+    private Rect rect = new Rect();//屏幕有效范围
 
 
     private Timer mTimer;
@@ -112,6 +115,8 @@ public class FloatView extends FrameLayout {
         //处理按钮自动隐藏
         refreshFloatViewGravity(isRight);
         startTimerForHide();
+        currentScreenAngle = getScreenAngle();
+        getWindowVisibleDisplayFrame(rect);
     }
 
     public void setWindowMangerLayoutParams(WindowManager.LayoutParams params) {
@@ -130,7 +135,8 @@ public class FloatView extends FrameLayout {
     @Override
     protected void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-
+        currentScreenAngle = getScreenAngle();
+        getWindowVisibleDisplayFrame(rect);
         // 更新浮动窗口位置参数 靠边
         DisplayMetrics dm = new DisplayMetrics();
         // 获取屏幕信息
@@ -142,10 +148,20 @@ public class FloatView extends FrameLayout {
         switch (newConfig.orientation) {
             case Configuration.ORIENTATION_LANDSCAPE://横屏
                 if (isRight) {
-                    wmParams.x = mScreenWidth;
+                    if (currentScreenAngle == Surface.ROTATION_90) {//手机如果有刘海则在左手边
+                        wmParams.x = Math.max(rect.right, mScreenWidth);
+                    } else if (currentScreenAngle == Surface.ROTATION_270) {//手机如果有刘海则在右手边
+                        wmParams.x = rect.right > mScreenWidth ? mScreenWidth - rect.top : mScreenWidth;
+                    } else {
+                        wmParams.x = mScreenWidth;
+                    }
                     wmParams.y = oldY;
                 } else {
-                    wmParams.x = oldX;
+                    if (currentScreenAngle == Surface.ROTATION_90) {
+                        wmParams.x = rect.right > mScreenWidth ? rect.top : 0;
+                    } else {
+                        wmParams.x = 0;
+                    }
                     wmParams.y = oldY;
                 }
                 break;
@@ -154,17 +170,18 @@ public class FloatView extends FrameLayout {
                     wmParams.x = mScreenWidth;
                     wmParams.y = oldY;
                 } else {
-                    wmParams.x = oldX;
+                    wmParams.x = 0;
                     wmParams.y = oldY;
                 }
                 break;
         }
 
-        Log.e("Zorro", "我旋转了多少度=" + mWindowManager.getDefaultDisplay().getRotation());
+        Log.e("Zorro", "我旋转了多少度=" + currentScreenAngle);
         if (onFloatCallbacks != null) {
             onFloatCallbacks.updateLayoutParams(wmParams);
         }
-        // mWindowManager.updateViewLayout(this, wmParams);
+
+        Log.e("Zorro", "left----" + rect.left + "-----bottom-----" + rect.bottom + "-----top-----" + rect.top + "-----right-----" + rect.right);
     }
 
 
@@ -186,8 +203,6 @@ public class FloatView extends FrameLayout {
                 if (onFloatCallbacks != null) {
                     onFloatCallbacks.updateLayoutParams(wmParams);
                 }
-                // mWindowManager.updateViewLayout(this, wmParams);
-
                 break;
             case MotionEvent.ACTION_MOVE:
                 float mMoveStartX = event.getX();
@@ -202,7 +217,6 @@ public class FloatView extends FrameLayout {
                     if (onFloatCallbacks != null) {
                         onFloatCallbacks.updateLayoutParams(wmParams);
                     }
-                    // mWindowManager.updateViewLayout(this, wmParams);
                     return false;
                 }
 
@@ -219,8 +233,25 @@ public class FloatView extends FrameLayout {
                 } else if (wmParams.x < mScreenWidth / 2) {
                     isRight = false;
                 }
-                final ValueAnimator animator = ValueAnimator.ofInt(wmParams.x, isRight ?
-                        mScreenWidth : 0);
+                int start = wmParams.x;
+                int end = 0;
+                if (isRight) {
+                    if (currentScreenAngle == Surface.ROTATION_90) {//手机如果有刘海则在左手边
+                        end = Math.max(rect.right, mScreenWidth);
+                    } else if (currentScreenAngle == Surface.ROTATION_270) {//手机如果有刘海则在右手边
+                        end = rect.right > mScreenWidth ? mScreenWidth - rect.top : mScreenWidth;
+                    } else {
+                        end = mScreenWidth;
+                    }
+                } else {
+                    if (currentScreenAngle == Surface.ROTATION_90) {
+                        end = rect.right > mScreenWidth ? rect.top : 0;
+                    } else {
+                        end = 0;
+                    }
+
+                }
+                final ValueAnimator animator = ValueAnimator.ofInt(start, end);
 //                animator.setInterpolator(new BounceInterpolator());
                 animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
@@ -229,7 +260,6 @@ public class FloatView extends FrameLayout {
                         if (onFloatCallbacks != null) {
                             onFloatCallbacks.updateLayoutParams(wmParams);
                         }
-                        // mWindowManager.updateViewLayout(FloatView.this, wmParams);
                     }
                 });
                 animator.addListener(new Animator.AnimatorListener() {
@@ -257,11 +287,6 @@ public class FloatView extends FrameLayout {
                     }
                 });
                 animator.setDuration(500).start();
-//                refreshFloatMenu(mIsRight);
-//                timerForHide();
-//                mWindowManager.updateViewLayout(this, mWmParams);
-//                // 初始化
-//                mTouchStartX = mTouchStartY = 0;
                 break;
         }
         return false;
@@ -282,7 +307,6 @@ public class FloatView extends FrameLayout {
             removeTimerTask();
             refreshFloatViewGravity(isRight);
             startTimerForHide();
-            // mWindowManager.updateViewLayout(this, wmParams);
         }
     }
 

@@ -3,12 +3,14 @@ package com.zorro.suspendedball.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.zorro.suspendedball.EasyFloat;
@@ -22,6 +24,7 @@ public class MainActivity1 extends AppCompatActivity {
     //    private FloatService mFloatService;
 //    private Boolean aBoolean = false;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,10 +50,6 @@ public class MainActivity1 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity1.this, OneActivity.class));
-//                changState(aBoolean);
-//                aBoolean = !aBoolean;
-//                Toast.makeText(MainActivity.this, "hh", Toast.LENGTH_SHORT).show();
-
             }
         });
 
