@@ -1,1 +1,61 @@
-# SuspendedBall
+# SuspendedBall Android系统悬浮窗
+## 关于集成：
+- **在应用模块的`build.gradle`添加：**
+```
+dependencies {
+    implementation 'com.zorro.easyfloat:EasyFloat:0.0.3'
+}
+```
+## 关于初始化：
+- 全局初始化为非必须；
+- **当浮窗为仅前台;**
+- 需要在项目的`Application`中进行全局初始化，进行页面生命周期检测。
+```
+EasyFloat.init(this)
+```
+## 关于权限声明：
+- 权限声明为非必须；
+- **当使用到系统浮窗（`ShowPattern.FOREGROUND`）；**
+- 需要在`AndroidManifest.xml`进行权限声明。
+```
+<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+```
+
+## 一行代码搞定Android浮窗，浮窗从未如此简单：
+```
+EasyFloat.with(this).show()
+```
+**点击回调**
+```
+.registerCallbacks(new OnFloatViewClick() {
+    @Override
+    public void onClick(View v) {
+       Toast.makeText(MainActivity.this, "我被点击了", Toast.LENGTH_LONG).show();
+    }
+})
+```
+### 悬浮窗权限的检测、申请
+- **无需主动进行权限申请**
+```
+// 权限检测
+PermissionUtils.checkPermission(this)
+
+// 权限申请，参数2为权限回调接口
+PermissionUtils.requestPermission(this，OnPermissionResult)
+```
+### 系统浮窗的相关API：
+// 关闭浮窗
+dismissAppFloat(String tag)
+
+// 隐藏浮窗
+hideAppFloat(String tag)
+
+// 显示浮窗
+showAppFloat(String tag)
+
+## 关于混淆：
+```
+-keep class com.zorro.easyfloat.** {*;}
+```
+## 关于感谢：
+- **悬浮窗：[EasyFloat](https://github.com/princekin-f/EasyFloat)**

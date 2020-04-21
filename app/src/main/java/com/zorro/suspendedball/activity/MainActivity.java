@@ -24,23 +24,37 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button btnShowFloat = (Button) findViewById(R.id.btn_show_float);
-        btnShowFloat.setOnClickListener(new View.OnClickListener() {
+        Button btnCreateShowFloat = findViewById(R.id.btn_create_show_float);
+        btnCreateShowFloat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 checkPermission();
             }
         });
+        Button btnShowFloat = findViewById(R.id.btn_show_float);
+        btnShowFloat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EasyFloat.showAppFloat("boll");
+            }
+        });
 
-        Button btnHideFloat = (Button) findViewById(R.id.btn_hide_float);
+        Button btnHideFloat = findViewById(R.id.btn_hide_float);
         btnHideFloat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 EasyFloat.hideAppFloat("boll");
             }
         });
-        Button btnstateFloat = (Button) findViewById(R.id.btn_state_float);
-        btnstateFloat.setOnClickListener(new View.OnClickListener() {
+        Button btnCloseFloat = findViewById(R.id.btn_close_float);
+        btnCloseFloat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EasyFloat.dismissAppFloat("boll");
+            }
+        });
+        Button btnNextActivity = findViewById(R.id.btn_next_activity);
+        btnNextActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, OneActivity.class));
