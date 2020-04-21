@@ -1,4 +1,4 @@
-# SuspendedBall Android系统悬浮窗
+# SuspendedBall Android系统悬浮窗支持横竖屏切换
 ## 关于集成：
 - **在应用模块的`build.gradle`添加：**
 ```
