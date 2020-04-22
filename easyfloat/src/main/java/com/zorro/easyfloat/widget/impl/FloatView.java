@@ -157,14 +157,14 @@ public class FloatView extends FrameLayout {
                     if (currentScreenAngle == Surface.ROTATION_90) {//手机如果有刘海则在左手边
                         wmParams.x = Math.max(rect.right, mScreenWidth);
                     } else if (currentScreenAngle == Surface.ROTATION_270) {//手机如果有刘海则在右手边
-                        wmParams.x = rect.right > mScreenWidth ? mScreenWidth - rect.top : mScreenWidth;
+                        wmParams.x = rect.right > mScreenWidth ? mScreenWidth - (rect.left > 0 ? rect.left : rect.top) : mScreenWidth;
                     } else {
                         wmParams.x = mScreenWidth;
                     }
                     wmParams.y = oldY;
                 } else {
                     if (currentScreenAngle == Surface.ROTATION_90) {
-                        wmParams.x = rect.right > mScreenWidth ? rect.top : 0;
+                        wmParams.x = rect.right > mScreenWidth ? (rect.left > 0 ? 0 : rect.top) : 0;
                     } else {
                         wmParams.x = 0;
                     }
@@ -245,13 +245,13 @@ public class FloatView extends FrameLayout {
                     if (currentScreenAngle == Surface.ROTATION_90) {//手机如果有刘海则在左手边
                         end = Math.max(rect.right, mScreenWidth);
                     } else if (currentScreenAngle == Surface.ROTATION_270) {//手机如果有刘海则在右手边
-                        end = rect.right > mScreenWidth ? mScreenWidth - rect.top : mScreenWidth;
+                        end = rect.right > mScreenWidth ? mScreenWidth - (rect.left > 0 ? rect.left : rect.top) : mScreenWidth;
                     } else {
                         end = mScreenWidth;
                     }
                 } else {
                     if (currentScreenAngle == Surface.ROTATION_90) {
-                        end = rect.right > mScreenWidth ? rect.top : 0;
+                        end = rect.right > mScreenWidth ? (rect.left > 0 ? 0 : rect.top) : 0;
                     } else {
                         end = 0;
                     }
