@@ -182,12 +182,12 @@ public class FloatView extends FrameLayout {
                 break;
         }
 
-        Log.e("Zorro", "我旋转了多少度=" + currentScreenAngle);
+        Log.e("Zorro", "屏幕方向我旋转了多少度=" + currentScreenAngle);
         if (onFloatUpdateLayoutCallbacks != null) {
             onFloatUpdateLayoutCallbacks.updateLayoutParams(wmParams);
         }
-
-        Log.e("Zorro", "left----" + rect.left + "-----bottom-----" + rect.bottom + "-----top-----" + rect.top + "-----right-----" + rect.right);
+        Log.e("Zorro", "页面mScreenWidth=" + mScreenWidth + "-----mScreenHeight==" + mScreenHeight);
+        Log.e("Zorro", "屏幕left----" + rect.left + "-----top-----" + rect.top + "-----right-----" + rect.right + "-----bottom-----" + rect.bottom);
     }
 
 
