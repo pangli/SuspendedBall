@@ -73,9 +73,9 @@ public class FloatView extends FrameLayout {
                 if (mCanHide) {
                     mCanHide = false;
                     if (isRight) {
-                        ivFloatView.setImageResource(R.drawable.gp_float_main_icon_half_rs);
+                        ivFloatView.setImageResource(R.mipmap.gp_float_main_icon_half_rs);
                     } else {
-                        ivFloatView.setImageResource(R.drawable.gp_float_main_icon_half_ls);
+                        ivFloatView.setImageResource(R.mipmap.gp_float_main_icon_half_ls);
                     }
                     refreshFloatViewGravity(isRight);
                     wmParams.alpha = 0.7f;
@@ -204,7 +204,7 @@ public class FloatView extends FrameLayout {
                 mTouchStartX = event.getX();
                 mTouchStartY = event.getY();
                 //更新UI
-                ivFloatView.setImageResource(R.drawable.gp_float_main_icon);
+                ivFloatView.setImageResource(R.mipmap.gp_float_main_icon);
                 wmParams.alpha = 1f;
                 if (onFloatUpdateLayoutCallbacks != null) {
                     onFloatUpdateLayoutCallbacks.updateLayoutParams(wmParams);
@@ -304,7 +304,7 @@ public class FloatView extends FrameLayout {
     public void show() {
         if (getVisibility() != View.VISIBLE) {
             setVisibility(View.VISIBLE);
-            ivFloatView.setImageResource(R.drawable.gp_float_main_icon);
+            ivFloatView.setImageResource(R.mipmap.gp_float_main_icon);
             wmParams.alpha = 1f;
             if (onFloatUpdateLayoutCallbacks != null) {
                 onFloatUpdateLayoutCallbacks.updateLayoutParams(wmParams);
