@@ -126,6 +126,9 @@ public class AppFloatManager {
             if (windowManager != null) {
                 windowManager.removeView(floatView);
             }
+            if (config != null) {
+                config.setCallbacks(null);
+            }
             floatView = null;
         }
     }
