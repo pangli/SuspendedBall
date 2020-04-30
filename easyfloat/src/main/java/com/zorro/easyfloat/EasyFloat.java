@@ -146,10 +146,10 @@ public class EasyFloat {
             if (isOpen) {
                 createAppFloat();
             } else {
-                if (config.getCallbacks() != null) {
-                    // config.getCallbacks().createdResult(false, "系统浮窗权限不足，开启失败", (View) null);
-                }
-                Log.e("Soin", "系统浮窗权限不足，开启失败");
+//                if (config.getCallbacks() != null) {
+//                    config.getCallbacks().createdResult(false, "系统浮窗权限不足，开启失败", (View) null);
+//                }
+                Log.e("EasyFloat", "系统浮窗权限不足，开启失败");
             }
         }
     }

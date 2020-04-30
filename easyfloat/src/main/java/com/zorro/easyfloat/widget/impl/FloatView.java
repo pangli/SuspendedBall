@@ -39,6 +39,7 @@ import java.util.TimerTask;
  */
 
 public class FloatView extends FrameLayout {
+    private static final String TAG = "FloatView--->";
     private final int HANDLER_TYPE_HIDE_LOGO = 100;//隐藏LOGO
     private Context mContext;
     //
@@ -182,12 +183,12 @@ public class FloatView extends FrameLayout {
                 break;
         }
 
-        Log.e("Zorro", "屏幕方向我旋转了多少度=" + currentScreenAngle);
+        Log.d(TAG, "屏幕方向我旋转了多少度=" + currentScreenAngle);
         if (onFloatUpdateLayoutCallbacks != null) {
             onFloatUpdateLayoutCallbacks.updateLayoutParams(wmParams);
         }
-        Log.e("Zorro", "页面mScreenWidth=" + mScreenWidth + "-----mScreenHeight==" + mScreenHeight);
-        Log.e("Zorro", "屏幕left----" + rect.left + "-----top-----" + rect.top + "-----right-----" + rect.right + "-----bottom-----" + rect.bottom);
+        Log.d(TAG, "页面mScreenWidth=" + mScreenWidth + "-----mScreenHeight==" + mScreenHeight);
+        Log.d(TAG, "屏幕left----" + rect.left + "-----top-----" + rect.top + "-----right-----" + rect.right + "-----bottom-----" + rect.bottom);
     }
 
 

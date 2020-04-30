@@ -33,7 +33,13 @@ public class PermissionUtils {
      * 6.0 版本之后由于 google 增加了对悬浮窗权限的管理，所以方式就统一了
      */
     public static boolean checkPermission(Context context) {
-        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? (RomUtils.checkIsHuaweiRom() ? huaweiPermissionCheck(context) : (RomUtils.checkIsMiuiRom() ? miuiPermissionCheck(context) : (RomUtils.checkIsOppoRom() ? oppoROMPermissionCheck(context) : (RomUtils.checkIsMeizuRom() ? meizuPermissionCheck(context) : (RomUtils.checkIs360Rom() ? qikuPermissionCheck(context) : true))))) : commonROMPermissionCheck(context);
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M ?
+                (RomUtils.checkIsHuaweiRom() ? huaweiPermissionCheck(context) :
+                        (RomUtils.checkIsMiuiRom() ? miuiPermissionCheck(context) :
+                                (RomUtils.checkIsOppoRom() ? oppoROMPermissionCheck(context) :
+                                        (RomUtils.checkIsMeizuRom() ? meizuPermissionCheck(context) :
+                                                (RomUtils.checkIs360Rom() ? qikuPermissionCheck(context) : true))))) :
+                commonROMPermissionCheck(context);
     }
 
     /**

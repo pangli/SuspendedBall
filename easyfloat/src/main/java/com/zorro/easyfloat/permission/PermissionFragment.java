@@ -23,7 +23,9 @@ public class PermissionFragment extends Fragment {
 
     public static void requestPermission(Activity activity, OnPermissionResult onPermissionResult) {
         PermissionFragment.onPermissionResult = onPermissionResult;
-        activity.getFragmentManager().beginTransaction().add(new PermissionFragment(), activity.getLocalClassName()).commitAllowingStateLoss();
+        activity.getFragmentManager().beginTransaction()
+                .add(new PermissionFragment(), activity.getLocalClassName())
+                .commitAllowingStateLoss();
     }
 
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -36,7 +38,7 @@ public class PermissionFragment extends Fragment {
         if (requestCode == PermissionUtils.requestCode) {
             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 public final void run() {
-                    Activity activity = PermissionFragment.this.getActivity();
+                    Activity activity = getActivity();
                     if (activity != null) {
                         boolean check = PermissionUtils.checkPermission(activity);
                         Log.i(TAG, "PermissionFragment onActivityResult: " + check);
@@ -45,7 +47,9 @@ public class PermissionFragment extends Fragment {
                             onPermissionResult.permissionResult(check);
                         }
                         // 将Fragment移除
-                        PermissionFragment.this.getFragmentManager().beginTransaction().remove(PermissionFragment.this).commitAllowingStateLoss();
+                        getFragmentManager().beginTransaction()
+                                .remove(PermissionFragment.this)
+                                .commitAllowingStateLoss();
                     }
                 }
             }, 500L);
