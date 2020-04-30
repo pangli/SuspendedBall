@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        EasyFloat.init(this.getApplication());
         Button btnCreateShowFloat = findViewById(R.id.btn_create_show_float);
         btnCreateShowFloat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
      * 检测浮窗权限是否开启，若没有给与申请提示框（非必须，申请依旧是EasyFloat内部内保进行）
      */
     private void checkPermission() {
-        if (PermissionUtils.checkPermission(this)) {
+        if (PermissionUtils.checkPermission(this.getApplicationContext())) {
             showAppFloat();
         } else {
             new AlertDialog.Builder(this)
@@ -101,5 +101,10 @@ public class MainActivity extends AppCompatActivity {
         }).show();
     }
 
-
+    @Override
+    protected void onDestroy() {
+        EasyFloat.dismissAppFloat("boll");
+        EasyFloat.release();
+        super.onDestroy();
+    }
 }

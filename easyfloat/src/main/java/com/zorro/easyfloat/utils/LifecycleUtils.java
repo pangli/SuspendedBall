@@ -3,6 +3,7 @@ package com.zorro.easyfloat.utils;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -22,41 +23,50 @@ import java.util.Map;
  */
 public class LifecycleUtils {
     private static int activityCount = 0;
+    private static Application application;
+    private static Application.ActivityLifecycleCallbacks lifecycleCallbacks;
 
     public static void setLifecycleCallbacks(Application application) {
-        application.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
-            public void onActivityCreated(@Nullable Activity activity, @Nullable Bundle savedInstanceState) {
-            }
-
-            public void onActivityStarted(@Nullable Activity activity) {
-                // 计算启动的activity数目
-                if (activity != null) activityCount++;
-
-            }
-
-            // 每次都要判断当前页面是否需要显示
-            public void onActivityResumed(@Nullable Activity activity) {
-                checkShow(activity);
-            }
-
-            public void onActivityPaused(@Nullable Activity activity) {
-            }
-
-            public void onActivityStopped(@Nullable Activity activity) {
-                if (activity != null) {
-                    // 计算关闭的activity数目，并判断当前App是否处于后台
-                    activityCount--;
-                    checkHide();
+        if (application != null) {
+            LifecycleUtils.application = application;
+            lifecycleCallbacks = new Application.ActivityLifecycleCallbacks() {
+                public void onActivityCreated(@Nullable Activity activity, @Nullable Bundle savedInstanceState) {
                 }
 
-            }
+                public void onActivityStarted(@Nullable Activity activity) {
+                    // 计算启动的activity数目
+                    if (activity != null) activityCount++;
 
-            public void onActivityDestroyed(@Nullable Activity activity) {
-            }
+                }
 
-            public void onActivitySaveInstanceState(@Nullable Activity activity, @Nullable Bundle outState) {
-            }
-        });
+                // 每次都要判断当前页面是否需要显示
+                public void onActivityResumed(@Nullable Activity activity) {
+                    checkShow(activity);
+                }
+
+                public void onActivityPaused(@Nullable Activity activity) {
+                }
+
+                public void onActivityStopped(@Nullable Activity activity) {
+                    if (activity != null) {
+                        // 计算关闭的activity数目，并判断当前App是否处于后台
+                        activityCount--;
+                        checkHide();
+                    }
+
+                }
+
+                public void onActivityDestroyed(@Nullable Activity activity) {
+                }
+
+                public void onActivitySaveInstanceState(@Nullable Activity activity, @Nullable Bundle outState) {
+                }
+            };
+            application.registerActivityLifecycleCallbacks(lifecycleCallbacks);
+        } else {
+            Log.e("LifecycleUtils", "application is null");
+        }
+
     }
 
     private static void checkShow(Activity activity) {
@@ -97,5 +107,13 @@ public class LifecycleUtils {
         FloatManager.visible(isShow, tag, true);
     }
 
-
+    public static void release() {
+        if (application != null && lifecycleCallbacks != null) {
+            application.unregisterActivityLifecycleCallbacks(lifecycleCallbacks);
+            lifecycleCallbacks = null;
+            application = null;
+        } else {
+            Log.e("LifecycleUtils", "application is null");
+        }
+    }
 }

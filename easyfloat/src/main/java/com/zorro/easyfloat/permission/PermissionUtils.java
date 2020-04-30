@@ -33,6 +33,10 @@ public class PermissionUtils {
      * 6.0 版本之后由于 google 增加了对悬浮窗权限的管理，所以方式就统一了
      */
     public static boolean checkPermission(Context context) {
+        if (context == null) {
+            Log.e(TAG, "context is null");
+            return false;
+        }
         return Build.VERSION.SDK_INT < Build.VERSION_CODES.M ?
                 (RomUtils.checkIsHuaweiRom() ? huaweiPermissionCheck(context) :
                         (RomUtils.checkIsMiuiRom() ? miuiPermissionCheck(context) :
@@ -46,7 +50,12 @@ public class PermissionUtils {
      * 申请悬浮窗权限
      */
     public static void requestPermission(Activity activity, OnPermissionResult onPermissionResult) {
-        PermissionFragment.requestPermission(activity, onPermissionResult);
+        if (activity != null) {
+            PermissionFragment.requestPermission(activity, onPermissionResult);
+        } else {
+            Log.e(TAG, "activity is null");
+        }
+
     }
 
     public static void requestPermission(Fragment fragment) {

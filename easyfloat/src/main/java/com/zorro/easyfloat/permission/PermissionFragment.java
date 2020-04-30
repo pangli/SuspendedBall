@@ -22,10 +22,15 @@ public class PermissionFragment extends Fragment {
     private static OnPermissionResult onPermissionResult;
 
     public static void requestPermission(Activity activity, OnPermissionResult onPermissionResult) {
-        PermissionFragment.onPermissionResult = onPermissionResult;
-        activity.getFragmentManager().beginTransaction()
-                .add(new PermissionFragment(), activity.getLocalClassName())
-                .commitAllowingStateLoss();
+        if (activity != null) {
+            PermissionFragment.onPermissionResult = onPermissionResult;
+            activity.getFragmentManager().beginTransaction()
+                    .add(new PermissionFragment(), activity.getLocalClassName())
+                    .commitAllowingStateLoss();
+        } else {
+            Log.e(TAG, "activity is null");
+        }
+
     }
 
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

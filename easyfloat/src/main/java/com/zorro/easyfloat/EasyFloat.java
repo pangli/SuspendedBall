@@ -14,6 +14,8 @@ import com.zorro.easyfloat.widget.impl.AppFloatManager;
 import com.zorro.easyfloat.widget.impl.FloatManager;
 import com.zorro.easyfloat.widget.interfaces.OnFloatViewClick;
 
+import java.lang.ref.WeakReference;
+
 /**
  * Package:   com.zorro.suspendedball
  * ClassName: EasyFloat
@@ -25,6 +27,11 @@ public class EasyFloat {
     public static void init(Application application) {
         // 注册Activity生命周期回调
         LifecycleUtils.setLifecycleCallbacks(application);
+    }
+
+    public static void release() {
+        // 资源回收
+        LifecycleUtils.release();
     }
 
     public static EasyFloat.Builder with(Activity activity) {
@@ -92,10 +99,10 @@ public class EasyFloat {
      */
     public static class Builder implements OnPermissionResult {
         private FloatConfig config;
-        private Activity activity;
+        private WeakReference<Activity> mWeakAct;
 
         public Builder(Activity activity) {
-            this.activity = activity;
+            this.mWeakAct = new WeakReference(activity);
             this.config = new FloatConfig();
         }
 
@@ -124,18 +131,23 @@ public class EasyFloat {
          * 创建浮窗，如若系统浮窗无权限，先进行权限申请
          */
         public void show() {
-            if (PermissionUtils.checkPermission(activity)) {
-                createAppFloat();
-            } else {
-                PermissionUtils.requestPermission(activity, this);
+            if (isSurviveActivity()) {
+                if (PermissionUtils.checkPermission(getActivity())) {
+                    createAppFloat();
+                } else {
+                    PermissionUtils.requestPermission(getActivity(), this);
+                }
             }
+
         }
 
         /**
          * 创建系统浮窗
          */
         private void createAppFloat() {
-            FloatManager.create(activity, config);
+            if (isSurviveActivity()) {
+                FloatManager.create(getActivity(), config);
+            }
         }
 
         /**
@@ -151,6 +163,20 @@ public class EasyFloat {
 //                }
                 Log.e("EasyFloat", "系统浮窗权限不足，开启失败");
             }
+        }
+
+        /**
+         * Activity是否存活
+         */
+        private boolean isSurviveActivity() {
+            return this.mWeakAct.get() != null && !(this.mWeakAct.get()).isFinishing();
+        }
+
+        /**
+         * 当前Activity
+         */
+        private Activity getActivity() {
+            return this.mWeakAct.get();
         }
     }
 
