@@ -89,7 +89,7 @@ public class FloatingView extends RelativeLayout {
             @Override
             public boolean onMove(View view, int direction, int x, int y, int dx, int dy, int totalX, int totalY, MotionEvent event) {
                 view.setX(Math.min(Math.max(0, view.getX() + dx), rootViewWidth - viewWidth));
-                view.setY(Math.min(view.getY() + dy, rootViewHeight - viewHeight));
+                view.setY(Math.min(Math.max(0, view.getY() + dy), rootViewHeight - viewHeight));
                 return true;
             }
 
