@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        EasyFloat.init(this.getApplication());
+        //EasyFloat.init(this.getApplication());
         Button btnCreateShowFloat = findViewById(R.id.btn_create_show_float);
         btnCreateShowFloat.setOnClickListener(new View.OnClickListener() {
             @Override

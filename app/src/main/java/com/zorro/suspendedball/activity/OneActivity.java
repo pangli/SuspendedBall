@@ -5,10 +5,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.zorro.suspendedball.R;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.zorro.easyfloat.newfloat.EasyActivityFloat;
+import com.zorro.suspendedball.R;
 
 /**
  * Created by lenovo on 2020/4/19.
@@ -27,5 +28,6 @@ public class OneActivity extends AppCompatActivity {
                 startActivity(new Intent(OneActivity.this, TwoActivity.class));
             }
         });
+        EasyActivityFloat.show();
     }
 }

@@ -11,6 +11,7 @@ import com.zorro.easyfloat.enums.ShowPattern;
 import com.zorro.easyfloat.widget.impl.AppFloatManager;
 import com.zorro.easyfloat.widget.impl.FloatManager;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -25,8 +26,16 @@ public class LifecycleUtils {
     private static int activityCount = 0;
     private static Application application;
     private static Application.ActivityLifecycleCallbacks lifecycleCallbacks;
+    private static WeakReference<Activity> mWeakAct;
 
-    public static void setLifecycleCallbacks(Application application) {
+    public static Activity getCurrentActivity() {
+        if (mWeakAct != null && mWeakAct.get() != null && !(mWeakAct.get()).isFinishing()) {
+            return mWeakAct.get();
+        }
+        return null;
+    }
+
+    public static void setLifecycleCallbacks(final Application application) {
         if (application != null) {
             LifecycleUtils.application = application;
             lifecycleCallbacks = new Application.ActivityLifecycleCallbacks() {
@@ -41,6 +50,7 @@ public class LifecycleUtils {
 
                 // 每次都要判断当前页面是否需要显示
                 public void onActivityResumed(@Nullable Activity activity) {
+                    mWeakAct = new WeakReference<>(activity);
                     checkShow(activity);
                 }
 
