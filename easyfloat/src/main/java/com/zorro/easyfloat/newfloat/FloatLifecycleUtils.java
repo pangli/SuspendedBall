@@ -8,10 +8,12 @@ import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 
+import java.lang.ref.WeakReference;
+
 /**
- * Package:   com.zorro.easyfloat.utils
- * ClassName: LifecycleUtils
- * Created by Zorro on 2020/4/21 15:01
+ * Package:   com.zorro.easyfloat.newfloat
+ * ClassName: FloatLifecycleUtils
+ * Created by Zorro on 2020/5/18 18:21
  * 备注：通过生命周期回调，判断系统浮窗的信息，以及app是否位于前台
  */
 public class FloatLifecycleUtils {
@@ -19,7 +21,14 @@ public class FloatLifecycleUtils {
     private static Application.ActivityLifecycleCallbacks lifecycleCallbacks;
     private static ViewGroup.LayoutParams mParams = new ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    private static WeakReference<Activity> mWeakAct;
 
+    public static Activity getCurrentActivity() {
+        if (mWeakAct != null && mWeakAct.get() != null && !(mWeakAct.get()).isFinishing()) {
+            return mWeakAct.get();
+        }
+        return null;
+    }
 
     public static void setLifecycleCallbacks(final Application application, final FloatingConfig config) {
         if (application != null) {
@@ -35,6 +44,7 @@ public class FloatLifecycleUtils {
                 // 每次都要判断当前页面是否需要显示
                 public void onActivityResumed(@Nullable Activity activity) {
                     if (activity != null) {
+                        mWeakAct = new WeakReference<>(activity);
                         if (config != null && config.getFilterSet() != null) {
                             if (!config.getFilterSet().contains(activity.getComponentName().getClassName())) {
                                 ((ViewGroup) activity.findViewById(android.R.id.content)).addView(FloatingView.getInstance(application), mParams);

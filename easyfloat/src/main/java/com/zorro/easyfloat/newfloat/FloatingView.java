@@ -22,12 +22,11 @@ import com.zorro.easyfloat.R;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
 /**
  * Package:   com.zorro.easyfloat.newfloat
  * ClassName: FloatingView
- * Created by Zorro on 2020/5/18 16:22
- * 备注：可拖动的浮动按钮
+ * Created by Zorro on 2020/5/18 18:20
+ * 备注： 可拖动的浮动按钮
  */
 public class FloatingView extends RelativeLayout {
 
@@ -54,7 +53,7 @@ public class FloatingView extends RelativeLayout {
         INSTANCE.setVisibility(isShow ? VISIBLE : GONE);
     }
 
-    public static void setOnViewClickListener(View.OnClickListener onClickListener) {
+    public static void setOnViewClickListener(OnClickListener onClickListener) {
         if (INSTANCE == null) return;
         INSTANCE.setOnClickListener(onClickListener);
     }

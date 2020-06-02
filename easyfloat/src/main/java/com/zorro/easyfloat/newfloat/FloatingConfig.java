@@ -6,8 +6,8 @@ import java.util.LinkedHashSet;
 /**
  * Package:   com.zorro.easyfloat.newfloat
  * ClassName: FloatingConfig
- * Created by Zorro on 2020/5/18 16:29
- * 备注：  悬浮球配置
+ * Created by Zorro on 2020/5/18 18:21
+ * 备注： 悬浮球配置
  */
 public class FloatingConfig {
 

@@ -4,10 +4,10 @@ import android.app.Application;
 import android.view.View;
 
 /**
- * Package:   com.zorro.suspendedball
- * ClassName: EasyFloat
- * Created by Zorro on 2020/4/21 15:04
- * 备注：
+ * Package:   com.zorro.easyfloat.newfloat
+ * ClassName: EasyActivityFloat
+ * Created by Zorro on 2020/5/18 18:21
+ * 备注： 悬浮球使用类
  */
 public class EasyActivityFloat {
 
@@ -16,7 +16,7 @@ public class EasyActivityFloat {
         FloatLifecycleUtils.setLifecycleCallbacks(application, config);
     }
 
-    public void setOnClickListener(View.OnClickListener onClickListener) {
+    public static void setOnClickListener(View.OnClickListener onClickListener) {
         FloatingView.setOnViewClickListener(onClickListener);
     }
 

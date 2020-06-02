@@ -12,10 +12,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * Package:   com.zorro.easyfloat.widget.impl
+ * Package:   com.zorro.easyfloat.newfloat
  * ClassName: TouchUtils
- * Created by Zorro on 2020/5/15 17:09
- * 备注： 触摸事件工具
+ * Created by Zorro on 2020/5/18 18:21
+ * 备注：  触摸事件工具
  */
 public class TouchUtils {
 
