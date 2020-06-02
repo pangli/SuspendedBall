@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.zorro.suspendedball">
 
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -11,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppThemeFullscreen">
-        <activity android:name=".activity.MainActivity"
+        <activity
+            android:name=".activity.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
