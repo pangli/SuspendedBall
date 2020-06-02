@@ -6,12 +6,13 @@ android {
 
     defaultConfig {
         applicationId "com.zorro.suspendedball"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        addManifestPlaceholders([game_plus_key: "f20f4252-f3f8-4800-a37b-d0037e473354"])
     }
 
     buildTypes {
@@ -32,5 +33,6 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation project(path: ':easyfloat')
+    implementation 'com.sino.gameplus:gameplus-debug:0.0.5'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'
 }

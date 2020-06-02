@@ -8,8 +8,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.sino.gameplus.QuickGameManager;
+import com.sino.gameplus.bean.ErrorResults;
+import com.sino.gameplus.bean.GPUserData;
+import com.sino.gameplus.listener.SDKCallback;
 import com.zorro.easyfloat.EasyFloat;
 import com.zorro.easyfloat.enums.ShowPattern;
 import com.zorro.easyfloat.permission.PermissionUtils;
@@ -61,7 +66,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        QuickGameManager.getInstance().init(this,"f20f4252-f3f8-4800-a37b-d0037e473354", new SDKCallback() {
+            @Override
+            public void onSuccess() {
+                //初始化成功
 
+            }
+
+            @Override
+            public void serviceInvalid(@Nullable GPUserData userData) {
+                //sdk服务器出现连接异常，返回上次正常登录用户信息（数据有可能为null），用于用户调用自己的登录服务
+            }
+
+            @Override
+            public void onFailed(ErrorResults errorResults) {
+                //初始化失败 ErrorResults 错误信息
+            }
+        });
     }
 
     /**
