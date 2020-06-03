@@ -24,7 +24,7 @@ import java.util.Map;
  */
 public class LifecycleUtils {
     private static int activityCount = 0;
-//    private static Application application;
+    //    private static Application application;
 //    private static Application.ActivityLifecycleCallbacks lifecycleCallbacks;
     private static WeakReference<Activity> mWeakAct;
 
@@ -88,7 +88,9 @@ public class LifecycleUtils {
                 AppFloatManager manager = (AppFloatManager) entry.getValue();
                 // 如果没有手动隐藏浮窗
                 if (manager.getConfig().getNeedShow()) {
-                    setVisible(true, tag);
+                    //setVisible(true, tag);
+                    // 如果没有手动隐藏浮窗，需要考虑过滤信息
+                    setVisible(!manager.getConfig().getFilterSet().contains(activity.getComponentName().getClassName()), tag);
                 }
             }
 

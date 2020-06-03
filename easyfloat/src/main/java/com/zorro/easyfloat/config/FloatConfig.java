@@ -5,6 +5,8 @@ import android.view.View;
 import com.zorro.easyfloat.enums.ShowPattern;
 import com.zorro.easyfloat.widget.interfaces.OnFloatViewClick;
 
+import java.util.LinkedHashSet;
+
 
 /**
  * Package:   com.zorro.easyfloat.config
@@ -27,7 +29,7 @@ public class FloatConfig {
     private OnFloatViewClick callbacks;
     // 是否需要显示，当过滤信息匹配上时，该值为false（用户手动调用隐藏，该值也为false，相当于手动过滤）
     private boolean needShow = true;
-
+    private LinkedHashSet<String> filterSet = new LinkedHashSet<String>();
 
     public View getLayoutView() {
         return this.layoutView;
@@ -81,5 +83,12 @@ public class FloatConfig {
         this.needShow = needShow;
     }
 
+    public LinkedHashSet<String> getFilterSet() {
+        return filterSet;
+    }
+
+    public void setFilterSet(LinkedHashSet<String> filterSet) {
+        this.filterSet = filterSet;
+    }
 
 }

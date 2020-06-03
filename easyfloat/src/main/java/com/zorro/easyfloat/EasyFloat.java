@@ -15,6 +15,7 @@ import com.zorro.easyfloat.widget.impl.FloatManager;
 import com.zorro.easyfloat.widget.interfaces.OnFloatViewClick;
 
 import java.lang.ref.WeakReference;
+import java.util.LinkedHashSet;
 
 /**
  * Package:   com.zorro.suspendedball
@@ -118,6 +119,15 @@ public class EasyFloat {
             return this;
         }
 
+        public Builder setFilter(Class clazz) {
+            config.getFilterSet().add(clazz.getCanonicalName());
+            return this;
+        }
+
+        public Builder setFilterSet(LinkedHashSet<String> filterSet) {
+            config.setFilterSet(filterSet);
+            return this;
+        }
 
         /**
          * 通过传统接口，进行浮窗的各种状态回调
