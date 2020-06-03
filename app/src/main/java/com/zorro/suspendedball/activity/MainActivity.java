@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
      * 显示悬浮图标
      */
     public void showAppFloat() {
-        EasyFloat.with(this).setTag("boll").setShowPattern(ShowPattern.FOREGROUND).registerCallbacks(new OnFloatViewClick() {
+        EasyFloat.with(this).setTag("boll").setShowPattern(ShowPattern.FOREGROUND).setFilter(OneActivity.class).registerCallbacks(new OnFloatViewClick() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "我被点击了", Toast.LENGTH_LONG).show();
