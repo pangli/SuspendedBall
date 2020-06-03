@@ -29,10 +29,10 @@ public class EasyFloat {
         LifecycleUtils.setLifecycleCallbacks(application);
     }
 
-    public static void release() {
-        // 资源回收
-        LifecycleUtils.release();
-    }
+//    public static void release() {
+//        // 资源回收
+//        LifecycleUtils.release();
+//    }
 
     public static EasyFloat.Builder with(Activity activity) {
         return new Builder(activity);

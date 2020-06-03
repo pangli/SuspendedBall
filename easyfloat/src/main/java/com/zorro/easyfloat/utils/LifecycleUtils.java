@@ -24,8 +24,8 @@ import java.util.Map;
  */
 public class LifecycleUtils {
     private static int activityCount = 0;
-    private static Application application;
-    private static Application.ActivityLifecycleCallbacks lifecycleCallbacks;
+//    private static Application application;
+//    private static Application.ActivityLifecycleCallbacks lifecycleCallbacks;
     private static WeakReference<Activity> mWeakAct;
 
     public static Activity getCurrentActivity() {
@@ -37,8 +37,8 @@ public class LifecycleUtils {
 
     public static void setLifecycleCallbacks(final Application application) {
         if (application != null) {
-            LifecycleUtils.application = application;
-            lifecycleCallbacks = new Application.ActivityLifecycleCallbacks() {
+            //LifecycleUtils.application = application;
+            application.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
                 public void onActivityCreated(@Nullable Activity activity, @Nullable Bundle savedInstanceState) {
                 }
 
@@ -71,8 +71,7 @@ public class LifecycleUtils {
 
                 public void onActivitySaveInstanceState(@Nullable Activity activity, @Nullable Bundle outState) {
                 }
-            };
-            application.registerActivityLifecycleCallbacks(lifecycleCallbacks);
+            });
         } else {
             Log.e("LifecycleUtils", "application is null");
         }
@@ -117,13 +116,13 @@ public class LifecycleUtils {
         FloatManager.visible(isShow, tag, true);
     }
 
-    public static void release() {
-        if (application != null && lifecycleCallbacks != null) {
-            application.unregisterActivityLifecycleCallbacks(lifecycleCallbacks);
-            lifecycleCallbacks = null;
-            application = null;
-        } else {
-            Log.e("LifecycleUtils", "application is null");
-        }
-    }
+//    public static void release() {
+//        if (application != null && lifecycleCallbacks != null) {
+//            application.unregisterActivityLifecycleCallbacks(lifecycleCallbacks);
+//            lifecycleCallbacks = null;
+//            //application = null;
+//        } else {
+//            Log.e("LifecycleUtils", "application is null");
+//        }
+//    }
 }
