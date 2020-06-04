@@ -22,7 +22,7 @@ public class ActivityFloatLifecycleUtils {
     //    private static Application application;
 //    private static Application.ActivityLifecycleCallbacks lifecycleCallbacks;
     private static ViewGroup.LayoutParams mParams = new ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
     private static WeakReference<Activity> mWeakAct;
 
     public static Activity getCurrentActivity() {

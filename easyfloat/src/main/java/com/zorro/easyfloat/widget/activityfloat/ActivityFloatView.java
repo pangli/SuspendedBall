@@ -243,8 +243,15 @@ public class ActivityFloatView extends FrameLayout {
                 mTimerHandler.sendMessage(message);
             }
         };
-        if (mCanHide) {
-            mTimer.schedule(mTimerTask, 6000, 3000);
+        if (mTimer != null) {
+            if (mCanHide) {
+                mTimer.schedule(mTimerTask, 6000, 3000);
+            }
+        } else {
+            if (mCanHide) {
+                mTimer = new Timer();
+                mTimer.schedule(mTimerTask, 6000, 3000);
+            }
         }
     }
 

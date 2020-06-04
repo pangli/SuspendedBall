@@ -2,6 +2,8 @@ package com.zorro.easyfloat.widget.activityfloat;
 
 import android.app.Application;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import java.lang.ref.WeakReference;
 
@@ -12,17 +14,24 @@ import java.lang.ref.WeakReference;
  * 备注：  ActivityFloatManager 操作类
  */
 public class ActivityFloatManager {
+    private static WeakReference<FrameLayout> frameLayoutWeak;
     private static WeakReference<ActivityFloatView> floatView;
+    private static ViewGroup.LayoutParams mParams = new ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-    public static ActivityFloatView create(Application application) {
-        if (floatView == null || floatView.get() == null) {
+    public static FrameLayout create(Application application) {
+        if (frameLayoutWeak == null || frameLayoutWeak.get() == null || floatView == null || floatView.get() == null) {
             synchronized (ActivityFloatManager.class) {
-                if (floatView == null || floatView.get() == null) {
+                if (frameLayoutWeak == null || frameLayoutWeak.get() == null || floatView == null || floatView.get() == null) {
+                    FrameLayout frameLayout = new FrameLayout(application);
+                    frameLayout.setBackgroundColor(application.getResources().getColor(android.R.color.transparent));
                     floatView = new WeakReference<>(new ActivityFloatView(application));
+                    frameLayout.addView(floatView.get(), mParams);
+                    frameLayoutWeak = new WeakReference<>(frameLayout);
                 }
             }
         }
-        return floatView.get();
+        return frameLayoutWeak.get();
     }
 
 
@@ -40,5 +49,7 @@ public class ActivityFloatManager {
         if (floatView == null || floatView.get() == null) return;
         floatView.get().destroy();
         floatView.clear();
+        if (frameLayoutWeak == null || frameLayoutWeak.get() == null) return;
+        frameLayoutWeak.clear();
     }
 }
