@@ -8,7 +8,6 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.zorro.easyfloat.newfloat.EasyActivityFloat;
 import com.zorro.suspendedball.R;
 
 /**
@@ -28,6 +27,5 @@ public class OneActivity extends AppCompatActivity {
                 startActivity(new Intent(OneActivity.this, TwoActivity.class));
             }
         });
-        EasyActivityFloat.show();
     }
 }

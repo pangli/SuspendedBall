@@ -10,11 +10,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.zorro.easyfloat.EasyFloat;
 import com.zorro.easyfloat.enums.ShowPattern;
-import com.zorro.easyfloat.newfloat.EasyActivityFloat;
+import com.zorro.easyfloat.interfaces.OnFloatViewClick;
 import com.zorro.easyfloat.permission.PermissionUtils;
-import com.zorro.easyfloat.widget.interfaces.OnFloatViewClick;
+import com.zorro.easyfloat.widget.activityfloat.EasyActivityFloat;
+import com.zorro.easyfloat.widget.appfloat.EasyFloat;
 import com.zorro.suspendedball.R;
 
 
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        EasyActivityFloat.show();
+        EasyActivityFloat.showActivityFloat();
     }
 
     /**
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
      * 显示悬浮图标
      */
     public void showAppFloat() {
-        EasyFloat.with(this).setTag("boll").setShowPattern(ShowPattern.FOREGROUND).setFilter(OneActivity.class).registerCallbacks(new OnFloatViewClick() {
+        EasyFloat.with(this).setTag("boll").setShowPattern(ShowPattern.APP_FOREGROUND).setFilter(OneActivity.class).registerCallbacks(new OnFloatViewClick() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "我被点击了", Toast.LENGTH_LONG).show();

@@ -2,8 +2,8 @@ package com.zorro.suspendedball;
 
 import android.app.Application;
 
-import com.zorro.easyfloat.newfloat.EasyActivityFloat;
-import com.zorro.easyfloat.newfloat.FloatingConfig;
+import com.zorro.easyfloat.config.FloatConfig;
+import com.zorro.easyfloat.widget.activityfloat.EasyActivityFloat;
 import com.zorro.suspendedball.activity.FourActivity;
 import com.zorro.suspendedball.activity.TwoActivity;
 
@@ -23,7 +23,7 @@ public class App extends Application {
         LinkedHashSet<String> set = new LinkedHashSet<>();
         set.add(TwoActivity.class.getCanonicalName());
         set.add(FourActivity.class.getCanonicalName());
-        FloatingConfig config = new FloatingConfig();
+        FloatConfig config = new FloatConfig();
         config.setFilterSet(set);
         EasyActivityFloat.init(this, config);
     }
