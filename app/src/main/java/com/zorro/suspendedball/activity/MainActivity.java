@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.zorro.easyfloat.EasyFloat;
 import com.zorro.easyfloat.enums.ShowPattern;
+import com.zorro.easyfloat.newfloat.EasyActivityFloat;
 import com.zorro.easyfloat.permission.PermissionUtils;
 import com.zorro.easyfloat.widget.interfaces.OnFloatViewClick;
 import com.zorro.suspendedball.R;
@@ -23,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //EasyFloat.init(this.getApplication());
         Button btnCreateShowFloat = findViewById(R.id.btn_create_show_float);
         btnCreateShowFloat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +60,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, OneActivity.class));
             }
         });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        EasyActivityFloat.show();
     }
 
     /**

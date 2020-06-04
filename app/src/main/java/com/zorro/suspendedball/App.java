@@ -2,7 +2,12 @@ package com.zorro.suspendedball;
 
 import android.app.Application;
 
-import com.zorro.easyfloat.EasyFloat;
+import com.zorro.easyfloat.newfloat.EasyActivityFloat;
+import com.zorro.easyfloat.newfloat.FloatingConfig;
+import com.zorro.suspendedball.activity.FourActivity;
+import com.zorro.suspendedball.activity.TwoActivity;
+
+import java.util.LinkedHashSet;
 
 /**
  * Package:   com.zorro.suspendedball
@@ -14,12 +19,12 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        EasyFloat.init(this);
-//        LinkedHashSet<String> set=new LinkedHashSet<>();
-//        set.add(TwoActivity.class.getCanonicalName());
-//        set.add(FourActivity.class.getCanonicalName());
-//        FloatingConfig config=new FloatingConfig();
-//        config.setFilterSet(set);
-//        FloatLifecycleUtils.setLifecycleCallbacks(this,config);
+//        EasyFloat.init(this);
+        LinkedHashSet<String> set = new LinkedHashSet<>();
+        set.add(TwoActivity.class.getCanonicalName());
+        set.add(FourActivity.class.getCanonicalName());
+        FloatingConfig config = new FloatingConfig();
+        config.setFilterSet(set);
+        EasyActivityFloat.init(this, config);
     }
 }
