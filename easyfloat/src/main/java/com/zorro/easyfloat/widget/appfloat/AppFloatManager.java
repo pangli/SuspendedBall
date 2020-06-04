@@ -1,4 +1,4 @@
-package com.zorro.easyfloat.widget.impl;
+package com.zorro.easyfloat.widget.appfloat;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
@@ -9,15 +9,15 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.zorro.easyfloat.config.FloatConfig;
-import com.zorro.easyfloat.widget.interfaces.OnFloatUpdateLayoutCallbacks;
-import com.zorro.easyfloat.widget.interfaces.OnFloatViewClick;
+import com.zorro.easyfloat.interfaces.OnFloatUpdateLayoutCallbacks;
+import com.zorro.easyfloat.interfaces.OnFloatViewClick;
 
 
 /**
- * Package:   com.zorro.easyfloat.widget.impl
+ * Package:   com.zorro.easyfloat.widget.appfloat
  * ClassName: AppFloatManager
- * Created by Zorro on 2020/4/21 15:01
- * 备注：  系统浮窗的管理类，包括浮窗的创建、销毁管理等
+ * Created by Zorro on 2020/6/4 15:03
+ * 备注： 系统浮窗的管理类，包括浮窗的创建、销毁管理等
  */
 public class AppFloatManager {
     private Context context;
@@ -93,7 +93,6 @@ public class AppFloatManager {
             }
         });
         windowManager.addView(floatView, params);
-        config.setLayoutView(floatView);
     }
 
     /**

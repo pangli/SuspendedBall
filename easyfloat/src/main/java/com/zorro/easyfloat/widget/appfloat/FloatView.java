@@ -1,4 +1,4 @@
-package com.zorro.easyfloat.widget.impl;
+package com.zorro.easyfloat.widget.appfloat;
 
 
 import android.animation.Animator;
@@ -25,19 +25,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.zorro.easyfloat.R;
-import com.zorro.easyfloat.widget.interfaces.OnFloatUpdateLayoutCallbacks;
-import com.zorro.easyfloat.widget.interfaces.OnFloatViewClick;
+import com.zorro.easyfloat.interfaces.OnFloatUpdateLayoutCallbacks;
+import com.zorro.easyfloat.interfaces.OnFloatViewClick;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * Package:   com.zorro.easyfloat.widget
- * ClassName: FloatView
- * Created by Zorro on 2020/4/17 19:13
- * 备注： 悬浮球View
- */
 
+/**
+ * Package:   com.zorro.easyfloat.widget.appfloat
+ * ClassName: FloatView
+ * Created by Zorro on 2020/6/4 15:04
+ * 备注：系统悬浮球View
+ */
 public class FloatView extends FrameLayout {
     private static final String TAG = "FloatView--->";
     private final int HANDLER_TYPE_HIDE_LOGO = 100;//隐藏LOGO

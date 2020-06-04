@@ -1,9 +1,7 @@
 package com.zorro.easyfloat.config;
 
-import android.view.View;
-
 import com.zorro.easyfloat.enums.ShowPattern;
-import com.zorro.easyfloat.widget.interfaces.OnFloatViewClick;
+import com.zorro.easyfloat.interfaces.OnFloatViewClick;
 
 import java.util.LinkedHashSet;
 
@@ -16,29 +14,19 @@ import java.util.LinkedHashSet;
  */
 public class FloatConfig {
 
-    private View layoutView;
     // 当前浮窗的tag
     private String floatTag;
     // 是否显示
     private boolean isShow;
 
     // 浮窗显示类型（默认只在当前页显示）
-    private ShowPattern showPattern = ShowPattern.FOREGROUND;
+    private ShowPattern showPattern = ShowPattern.APP_FOREGROUND;
 
 
     private OnFloatViewClick callbacks;
     // 是否需要显示，当过滤信息匹配上时，该值为false（用户手动调用隐藏，该值也为false，相当于手动过滤）
     private boolean needShow = true;
     private LinkedHashSet<String> filterSet = new LinkedHashSet<String>();
-
-    public View getLayoutView() {
-        return this.layoutView;
-    }
-
-    public void setLayoutView(View layoutView) {
-        this.layoutView = layoutView;
-    }
-
 
     public String getFloatTag() {
         return this.floatTag;

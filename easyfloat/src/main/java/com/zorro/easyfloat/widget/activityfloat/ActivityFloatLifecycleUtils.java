@@ -1,4 +1,4 @@
-package com.zorro.easyfloat.newfloat;
+package com.zorro.easyfloat.widget.activityfloat;
 
 import android.app.Activity;
 import android.app.Application;
@@ -8,15 +8,17 @@ import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 
+import com.zorro.easyfloat.config.FloatConfig;
+
 import java.lang.ref.WeakReference;
 
 /**
- * Package:   com.zorro.easyfloat.newfloat
- * ClassName: FloatLifecycleUtils
+ * Package:   com.zorro.easyfloat.widget.activityfloat
+ * ClassName: ActivityFloatLifecycleUtils
  * Created by Zorro on 2020/5/18 18:21
  * 备注：通过生命周期回调，判断系统浮窗的信息，以及app是否位于前台
  */
-public class FloatLifecycleUtils {
+public class ActivityFloatLifecycleUtils {
     //    private static Application application;
 //    private static Application.ActivityLifecycleCallbacks lifecycleCallbacks;
     private static ViewGroup.LayoutParams mParams = new ViewGroup.LayoutParams(
@@ -30,7 +32,8 @@ public class FloatLifecycleUtils {
         return null;
     }
 
-    public static void setLifecycleCallbacks(final Application application, final FloatingConfig config) {
+
+    public static void setLifecycleCallbacks(final Application application, final FloatConfig config) {
         if (application != null) {
 //            FloatLifecycleUtils.application = application;
             application.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
@@ -47,10 +50,10 @@ public class FloatLifecycleUtils {
                         mWeakAct = new WeakReference<>(activity);
                         if (config != null && config.getFilterSet() != null) {
                             if (!config.getFilterSet().contains(activity.getComponentName().getClassName())) {
-                                ((ViewGroup) activity.findViewById(android.R.id.content)).addView(FloatingView.getInstance(application), mParams);
+                                ((ViewGroup) activity.findViewById(android.R.id.content)).addView(ActivityFloatManager.create(application), mParams);
                             }
                         } else {
-                            ((ViewGroup) activity.findViewById(android.R.id.content)).addView(FloatingView.getInstance(application), mParams);
+                            ((ViewGroup) activity.findViewById(android.R.id.content)).addView(ActivityFloatManager.create(application), mParams);
                         }
 
                     }
@@ -61,10 +64,10 @@ public class FloatLifecycleUtils {
                     if (activity != null) {
                         if (config != null && config.getFilterSet() != null) {
                             if (!config.getFilterSet().contains(activity.getComponentName().getClassName())) {
-                                ((ViewGroup) activity.findViewById(android.R.id.content)).removeView(FloatingView.getInstance(application));
+                                ((ViewGroup) activity.findViewById(android.R.id.content)).removeView(ActivityFloatManager.create(application));
                             }
                         } else {
-                            ((ViewGroup) activity.findViewById(android.R.id.content)).removeView(FloatingView.getInstance(application));
+                            ((ViewGroup) activity.findViewById(android.R.id.content)).removeView(ActivityFloatManager.create(application));
                         }
                     }
                 }

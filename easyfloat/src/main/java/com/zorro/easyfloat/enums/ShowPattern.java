@@ -8,5 +8,6 @@ package com.zorro.easyfloat.enums;
  */
 public enum ShowPattern {
     // 仅应用前台时显示
-    FOREGROUND
+    APP_FOREGROUND,
+    ACTIVITY_FOREGROUND
 }

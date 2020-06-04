@@ -1,27 +1,23 @@
-package com.zorro.easyfloat;
+package com.zorro.easyfloat.widget.appfloat;
 
 import android.app.Activity;
 import android.app.Application;
 import android.util.Log;
-import android.view.View;
 
 import com.zorro.easyfloat.config.FloatConfig;
 import com.zorro.easyfloat.enums.ShowPattern;
+import com.zorro.easyfloat.interfaces.OnFloatViewClick;
 import com.zorro.easyfloat.permission.OnPermissionResult;
 import com.zorro.easyfloat.permission.PermissionUtils;
-import com.zorro.easyfloat.utils.LifecycleUtils;
-import com.zorro.easyfloat.widget.impl.AppFloatManager;
-import com.zorro.easyfloat.widget.impl.FloatManager;
-import com.zorro.easyfloat.widget.interfaces.OnFloatViewClick;
 
 import java.lang.ref.WeakReference;
 import java.util.LinkedHashSet;
 
 /**
- * Package:   com.zorro.suspendedball
+ * Package:   com.zorro.easyfloat.widget.appfloat
  * ClassName: EasyFloat
- * Created by Zorro on 2020/4/21 15:04
- * 备注：
+ * Created by Zorro on 2020/6/4 15:03
+ * 备注： 系统悬浮球使用管理类
  */
 public class EasyFloat {
 
@@ -30,16 +26,11 @@ public class EasyFloat {
         LifecycleUtils.setLifecycleCallbacks(application);
     }
 
-//    public static void release() {
-//        // 资源回收
-//        LifecycleUtils.release();
-//    }
-
     public static EasyFloat.Builder with(Activity activity) {
         return new Builder(activity);
     }
 
-    // *************************** Activity浮窗的相关方法 ***************************
+    // *************************** app浮窗的相关方法 ***************************
     // 通过浮窗管理类，实现系统浮窗的相应的功能，详情参考FloatManager
 
     /**
@@ -84,15 +75,6 @@ public class EasyFloat {
     public static boolean appFloatIsShow(String tag) {
         FloatConfig config = getConfig(tag);
         return config != null && config.isShow();
-    }
-
-
-    /**
-     * 获取系统浮窗中，我们传入的View
-     */
-    public static View getAppFloatView(String tag) {
-        FloatConfig config = getConfig(tag);
-        return config != null ? config.getLayoutView() : null;
     }
 
     /**

@@ -1,4 +1,4 @@
-package com.zorro.easyfloat.utils;
+package com.zorro.easyfloat.widget.appfloat;
 
 import android.app.Activity;
 import android.app.Application;
@@ -8,8 +8,6 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.zorro.easyfloat.enums.ShowPattern;
-import com.zorro.easyfloat.widget.impl.AppFloatManager;
-import com.zorro.easyfloat.widget.impl.FloatManager;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -17,9 +15,9 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
- * Package:   com.zorro.easyfloat.utils
+ * Package:   com.zorro.easyfloat.widget.appfloat
  * ClassName: LifecycleUtils
- * Created by Zorro on 2020/4/21 15:01
+ * Created by Zorro on 2020/6/4 15:05
  * 备注：通过生命周期回调，判断系统浮窗的信息，以及app是否位于前台
  */
 public class LifecycleUtils {
@@ -104,7 +102,7 @@ public class LifecycleUtils {
                 String tag = entry.getKey();
                 AppFloatManager manager = entry.getValue();
                 // 当app处于后台时，不是仅前台显示的浮窗，都需要显示
-                setVisible(manager.getConfig().getShowPattern() != ShowPattern.FOREGROUND, tag);
+                setVisible(manager.getConfig().getShowPattern() != ShowPattern.APP_FOREGROUND, tag);
             }
 
         }

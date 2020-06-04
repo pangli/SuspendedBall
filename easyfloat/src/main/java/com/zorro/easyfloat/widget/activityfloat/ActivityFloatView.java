@@ -1,10 +1,11 @@
-package com.zorro.easyfloat.newfloat;
+package com.zorro.easyfloat.widget.activityfloat;
 
 import android.annotation.SuppressLint;
-import android.app.Application;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Handler;
 import android.os.Message;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -15,6 +16,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.zorro.easyfloat.R;
 
@@ -22,43 +25,33 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Package:   com.zorro.easyfloat.newfloat
- * ClassName: FloatingView
- * Created by Zorro on 2020/5/18 18:20
- * 备注： 可拖动的浮动按钮
+ * Package:   com.zorro.easyfloat.widget.activityfloat
+ * ClassName: ActivityFloatView
+ * Created by Zorro on 2020/6/4 15:01
+ * 备注：可拖动的浮动按钮默认不显示
  */
-public class FloatingView extends FrameLayout {
-
-    @SuppressLint("StaticFieldLeak")
-    private static FloatingView INSTANCE;
+public class ActivityFloatView extends FrameLayout {
     private int mIconId;
     private boolean isRight = true;//logo是否在右边靠右
     private ImageView ivFloatView;
     private float oldY = 200;
 
-    public static FloatingView getInstance(Application application) {
-        if (INSTANCE == null) {
-            synchronized (FloatingView.class) {
-                if (INSTANCE == null) {
-                    INSTANCE = new FloatingView(application);
-                }
-            }
-        }
-        return INSTANCE;
+
+    public ActivityFloatView(@NonNull Context context) {
+        this(context, null);
     }
 
-    public static void setVisibility(boolean isShow) {
-        if (INSTANCE == null) return;
-        INSTANCE.setVisibility(isShow ? VISIBLE : GONE);
+    public ActivityFloatView(@NonNull Context context, @Nullable AttributeSet attrs) {
+        this(context, attrs, 0);
     }
 
-    public static void setOnViewClickListener(OnClickListener onClickListener) {
-        if (INSTANCE == null) return;
-        INSTANCE.setOnClickListener(onClickListener);
+    public ActivityFloatView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        init();
     }
 
-    public FloatingView(Application application) {
-        super(application);
+
+    private void init() {
         inflate(getContext(), R.layout.sino_widget_float_view, this);
         ivFloatView = findViewById(R.id.iv_float_view);
         mTimer = new Timer();
@@ -296,7 +289,6 @@ public class FloatingView extends FrameLayout {
             if (mTimerHandler != null) {
                 mTimerHandler.removeCallbacksAndMessages(null);
             }
-            INSTANCE = null;
         } catch (Exception e) {
             e.printStackTrace();
         }

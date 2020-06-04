@@ -1,4 +1,4 @@
-package com.zorro.easyfloat.widget.impl;
+package com.zorro.easyfloat.widget.appfloat;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -10,9 +10,9 @@ import com.zorro.easyfloat.config.FloatConfig;
 import java.util.HashMap;
 
 /**
- * Package:   com.zorro.easyfloat.widget.impl
+ * Package:   com.zorro.easyfloat.widget.appfloat
  * ClassName: FloatManager
- * Created by Zorro on 2020/4/20 11:28.
+ * Created by Zorro on 2020/6/4 15:04
  * 备注：系统浮窗的集合管理类，通过浮窗tag管理各个浮窗
  */
 public class FloatManager {
