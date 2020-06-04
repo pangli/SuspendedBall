@@ -28,8 +28,8 @@ public class EasyActivityFloat {
         FloatingView.setVisibility(false);
     }
 
-    public static void release() {
-        // 资源回收
-        FloatLifecycleUtils.release();
-    }
+//    public static void release() {
+//        // 资源回收
+//        FloatLifecycleUtils.release();
+//    }
 }

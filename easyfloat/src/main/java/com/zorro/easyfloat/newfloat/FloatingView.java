@@ -13,7 +13,6 @@ import android.view.ViewTreeObserver;
 import android.view.animation.BounceInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import androidx.annotation.DrawableRes;
 
@@ -28,7 +27,7 @@ import java.util.TimerTask;
  * Created by Zorro on 2020/5/18 18:20
  * 备注： 可拖动的浮动按钮
  */
-public class FloatingView extends RelativeLayout {
+public class FloatingView extends FrameLayout {
 
     @SuppressLint("StaticFieldLeak")
     private static FloatingView INSTANCE;

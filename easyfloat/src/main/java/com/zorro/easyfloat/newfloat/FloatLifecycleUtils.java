@@ -17,8 +17,8 @@ import java.lang.ref.WeakReference;
  * 备注：通过生命周期回调，判断系统浮窗的信息，以及app是否位于前台
  */
 public class FloatLifecycleUtils {
-    private static Application application;
-    private static Application.ActivityLifecycleCallbacks lifecycleCallbacks;
+    //    private static Application application;
+//    private static Application.ActivityLifecycleCallbacks lifecycleCallbacks;
     private static ViewGroup.LayoutParams mParams = new ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     private static WeakReference<Activity> mWeakAct;
@@ -32,8 +32,8 @@ public class FloatLifecycleUtils {
 
     public static void setLifecycleCallbacks(final Application application, final FloatingConfig config) {
         if (application != null) {
-            FloatLifecycleUtils.application = application;
-            lifecycleCallbacks = new Application.ActivityLifecycleCallbacks() {
+//            FloatLifecycleUtils.application = application;
+            application.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
                 public void onActivityCreated(@Nullable Activity activity, @Nullable Bundle savedInstanceState) {
                 }
 
@@ -79,8 +79,7 @@ public class FloatLifecycleUtils {
 
                 public void onActivitySaveInstanceState(@Nullable Activity activity, @Nullable Bundle outState) {
                 }
-            };
-            application.registerActivityLifecycleCallbacks(lifecycleCallbacks);
+            });
         } else {
             Log.e("LifecycleUtils", "application is null");
         }
@@ -88,15 +87,15 @@ public class FloatLifecycleUtils {
     }
 
 
-    public static void release() {
-        if (application != null && lifecycleCallbacks != null) {
-            FloatingView.getInstance(application).destroy();
-            application.unregisterActivityLifecycleCallbacks(lifecycleCallbacks);
-            lifecycleCallbacks = null;
-            mParams = null;
-            application = null;
-        } else {
-            Log.e("LifecycleUtils", "application is null");
-        }
-    }
+//    public static void release() {
+//        if (application != null && lifecycleCallbacks != null) {
+//            FloatingView.getInstance(application).destroy();
+//            application.unregisterActivityLifecycleCallbacks(lifecycleCallbacks);
+//            lifecycleCallbacks = null;
+//            mParams = null;
+//            application = null;
+//        } else {
+//            Log.e("LifecycleUtils", "application is null");
+//        }
+//    }
 }
