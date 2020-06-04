@@ -8,7 +8,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
-        versionName "0.0.10"
+        versionName "0.0.11"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -39,7 +39,7 @@ publish {
     userOrg = 'pangli'
     groupId = 'com.zorro.easyfloat'
     artifactId = 'EasyFloat'
-    publishVersion = '0.0.10'
+    publishVersion = '0.0.11'
     desc = 'An intelligent EasyFloat'
     website = "https://github.com/pangli/${rootProject.name}"
 }

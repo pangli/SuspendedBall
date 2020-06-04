@@ -3,7 +3,7 @@
 - **在应用模块的`build.gradle`添加：**
 ```
 dependencies {
-    implementation 'com.zorro.easyfloat:EasyFloat:0.0.10'
+    implementation 'com.zorro.easyfloat:EasyFloat:0.0.11'
 }
 ```
 ## 关于初始化：
